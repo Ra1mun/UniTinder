@@ -1,11 +1,26 @@
-﻿namespace UniTinder.ApplicationStartup.Scripts
+﻿using UniTinder.Camera;
+using Zenject;
+
+namespace UniTinder.ApplicationStartup.Scripts
 {
     public class ApplicationStartup
     {
-        
-        public ApplicationStartup()
+        private readonly IInstantiator _instantiator;
+
+        public ApplicationStartup(IInstantiator instantiator)
         {
+            _instantiator = instantiator;
             
+            StartBootstrap();
+        }
+
+        private void StartBootstrap()
+        {
+            var bootstrap = new Bootstrap.Bootstrap();
+            
+            bootstrap.AddCommand(_instantiator.Instantiate<InitCameraCommand>());
+            
+            bootstrap.StartExecute();
         }
     }
 }
