@@ -1,5 +1,6 @@
 using UniTinder.ApplicationStartup.Scripts;
 using UniTinder.SceneObjectStorage.Scripts;
+using UniTinder.UI.UIService;
 using UnityEngine;
 using Zenject;
 

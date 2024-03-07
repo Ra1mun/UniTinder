@@ -1,4 +1,5 @@
 ﻿using UniTinder.Camera;
+using UniTinder.UI.UIService;
 using Zenject;
 
 namespace UniTinder.ApplicationStartup.Scripts
@@ -19,6 +20,7 @@ namespace UniTinder.ApplicationStartup.Scripts
             var bootstrap = new Bootstrap.Bootstrap();
             
             bootstrap.AddCommand(_instantiator.Instantiate<InitCameraCommand>());
+            bootstrap.AddCommand(_instantiator.Instantiate<InitUIServiceCommand>());
             
             bootstrap.StartExecute();
         }

@@ -1,7 +1,6 @@
-﻿using UniTinder.SceneObjectStorage.Scripts;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace UniTinder.UI
+namespace UniTinder.UI.UIService
 {
     public class UIRoot : MonoBehaviour
     {

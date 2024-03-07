@@ -2,6 +2,7 @@
 using UniTinder.Bootstrap.Interfaces;
 using UniTinder.SceneObjectStorage;
 using UniTinder.UI;
+using UniTinder.UI.UIService;
 
 namespace UniTinder.Camera
 {

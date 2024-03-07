@@ -1,14 +1,15 @@
-using UniTinder.UI;
-using UnityEngine;
 using Zenject;
 
-public class UIServiceInstaller : Installer<UIServiceInstaller>
+namespace UniTinder.UI.UIService
 {
-    public override void InstallBindings()
+    public class UIServiceInstaller : Installer<UIServiceInstaller>
     {
-        Container
-            .Bind<UIRoot>()
-            .FromComponentInNewPrefabResource("UIRoot")
-            .AsSingle();
+        public override void InstallBindings()
+        {
+            Container
+                .Bind<UIRoot>()
+                .FromComponentInNewPrefabResource("UIRoot")
+                .AsSingle();
+        }
     }
 }
