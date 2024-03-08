@@ -99,5 +99,19 @@ namespace UniTinder.UI.UIService
                 _instViews.Add(type, view);
             }
         }
+        
+        public T Get<T>() where T : UIWindow
+        {
+            var type = typeof(T);
+            if (_instViews.ContainsKey(type))
+            {
+                var view = _instViews[type];
+                var viewComponent = view.GetComponent<T>();
+
+                return viewComponent;
+            }
+
+            return null;
+        }
     }
 }
