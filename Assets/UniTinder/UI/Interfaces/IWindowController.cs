@@ -5,8 +5,8 @@ using UnityEngine;
 
 public interface IWindowController
 { 
-    Action GoToNext { get; set; }
-    Action GoToPrevious { get; set; }
+    Action GoToNextWindow { get; set; }
+    Action GoToPreviousWindow { get; set; }
 
     void ShowWindow();
     void HideWindow();

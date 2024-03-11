@@ -19,8 +19,6 @@ namespace UniTinder.UI.UIService
         {
             _instantiator = instantiator;
             _uiRoot = uiRoot;
-
-            Debug.Log("Construct");
         }
 
         public void LoadWindows()
@@ -41,7 +39,7 @@ namespace UniTinder.UI.UIService
             }
         }
     
-        public T Show<T>() where T : UIWindow
+        public void Show<T>() where T : UIWindow
         {
             var type = typeof(T);
             if (_instViews.ContainsKey(type))
@@ -64,9 +62,7 @@ namespace UniTinder.UI.UIService
                 }
                 
                 component.Show();
-                return component;
             }
-            return null;
         }
         
         public void Hide<T>(Action onEnd = null) where T : UIWindow

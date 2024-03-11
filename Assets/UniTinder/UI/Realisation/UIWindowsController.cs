@@ -8,7 +8,7 @@ namespace UniTinder.UI.Realisation
         private readonly LinkedList<IWindowController> _windowControllers = new LinkedList<IWindowController>();
 
         public UIWindowsController(
-            UIRegistrationWindowController uiStartWindowController,
+            UIStartWindowController uiStartWindowController,
             UIRegistrationWindowController uiRegistrationWindowController,
             UIMatchWindowController uiMatchWindowController,
             UIProfileWindowController uiProfileWindowController,
@@ -30,9 +30,9 @@ namespace UniTinder.UI.Realisation
         {
             if (_windowControllers.Last != null)
             {
-                _windowControllers.Last.Value.GoToNext += windowController.ShowWindow;
+                _windowControllers.Last.Value.GoToNextWindow += windowController.ShowWindow;
             
-                windowController.GoToPrevious += _windowControllers.Last.Value.ShowWindow;
+                windowController.GoToPreviousWindow += _windowControllers.Last.Value.ShowWindow;
             }
 
             _windowControllers.AddLast(windowController);

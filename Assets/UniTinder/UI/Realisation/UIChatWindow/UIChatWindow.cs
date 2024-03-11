@@ -1,17 +1,29 @@
-﻿using UniTinder.UI.UIService;
+﻿using System;
+using UniTinder.UI.UIService;
+using UnityEngine;
+using UnityEngine.UI;
 
 namespace UniTinder.UI.Realisation
 {
     public class UIChatWindow : UIWindow
     {
+        public Action GoToPreviousWindowEvent;
+        
+        [SerializeField] private Button previousButton;
+        
         public override void Show()
         {
-            throw new System.NotImplementedException();
+            previousButton.onClick.AddListener(GoToPreviousButtonClick);
         }
 
+        private void GoToPreviousButtonClick()
+        {
+            GoToPreviousWindowEvent?.Invoke();
+        }
+        
         public override void Hide()
         {
-            throw new System.NotImplementedException();
+            previousButton.onClick.RemoveListener(GoToPreviousButtonClick);
         }
     }
 }

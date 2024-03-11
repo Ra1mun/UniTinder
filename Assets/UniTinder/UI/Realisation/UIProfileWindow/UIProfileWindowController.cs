@@ -7,8 +7,8 @@ namespace UniTinder.UI.Realisation
     {
         private readonly UIService.UIService _uiService;
         private readonly UIProfileWindow _uiProfileWindow;
-        public Action GoToNext { get; set; }
-        public Action GoToPrevious { get; set; }
+        public Action GoToNextWindow { get; set; }
+        public Action GoToPreviousWindow { get; set; }
 
         public UIProfileWindowController(UIService.UIService uiService)
         {
@@ -19,11 +19,31 @@ namespace UniTinder.UI.Realisation
 
         public void ShowWindow()
         {
+            _uiProfileWindow.GoToPreviousWindowEvent += GoToPrevious;
+            _uiProfileWindow.GoToNextWindowEvent += GoToNext;
+            
             _uiService.Show<UIProfileWindow>();
+        }
+        
+        private void GoToNext()
+        {
+            GoToNextWindow?.Invoke();
+            
+            HideWindow();
+        }
+
+        private void GoToPrevious()
+        {
+            GoToPreviousWindow?.Invoke();
+            
+            HideWindow();
         }
 
         public void HideWindow()
         {
+            _uiProfileWindow.GoToPreviousWindowEvent -= GoToPrevious;
+            _uiProfileWindow.GoToNextWindowEvent -= GoToNext;
+            
             _uiService.Hide<UIProfileWindow>();
         }
     }

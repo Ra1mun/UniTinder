@@ -5,8 +5,8 @@ namespace UniTinder.Camera
 {
     public class CameraView : SceneObject
     {
-        public UnityEngine.Camera CameraDisplay => _cameraDisplay;
+        public UnityEngine.Camera CameraDisplay => cameraDisplay;
         
-        [SerializeField] private UnityEngine.Camera _cameraDisplay;
+        [SerializeField] private UnityEngine.Camera cameraDisplay;
     }
 }

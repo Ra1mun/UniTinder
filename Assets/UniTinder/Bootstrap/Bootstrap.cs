@@ -1,3 +1,4 @@
+using UniRx;
 using UniTinder.Bootstrap.Interfaces;
 using UnityEngine;
 
@@ -41,6 +42,11 @@ namespace UniTinder.Bootstrap
         {
             _currentCommand.Done -= CurrentCommandDone;
             _canExecute = true;
+            
+            Observable.NextFrame().Subscribe(_ =>
+            {
+                Execute();
+            });
         }
     }
 }
