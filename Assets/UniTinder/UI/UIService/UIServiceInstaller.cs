@@ -1,5 +1,4 @@
 using UniTinder.UI.Realisation;
-using UniTinder.UI.Realisation.UIStartWindow;
 using Zenject;
 
 namespace UniTinder.UI.UIService
@@ -14,15 +13,31 @@ namespace UniTinder.UI.UIService
                 .AsSingle();
 
             Container
+                .Bind<UIService>()
+                .AsSingle();
+
+            Container
                 .Bind<UIStartWindowController>()
                 .AsSingle();
 
             Container
-                .Bind<UIWindowsController>()
+                .Bind<UIRegistrationWindowController>()
                 .AsSingle();
 
             Container
-                .Bind<UIService>()
+                .Bind<UIProfileWindowController>()
+                .AsSingle();
+
+            Container
+                .Bind<UIMatchWindowController>()
+                .AsSingle();
+
+            Container
+                .Bind<UIChatWindowController>()
+                .AsSingle();
+
+            Container
+                .Bind<UIWindowsController>()
                 .AsSingle();
         }
     }

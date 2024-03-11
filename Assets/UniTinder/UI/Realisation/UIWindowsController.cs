@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using UniTinder.UI.Realisation.UIStartWindow;
+
 
 namespace UniTinder.UI.Realisation
 {
@@ -8,9 +8,17 @@ namespace UniTinder.UI.Realisation
         private readonly LinkedList<IWindowController> _windowControllers = new LinkedList<IWindowController>();
 
         public UIWindowsController(
-            UIStartWindowController uiStartWindowController)
+            UIRegistrationWindowController uiStartWindowController,
+            UIRegistrationWindowController uiRegistrationWindowController,
+            UIMatchWindowController uiMatchWindowController,
+            UIProfileWindowController uiProfileWindowController,
+            UIChatWindowController uiChatWindowController)
         {
             SetupWindow(uiStartWindowController);
+            SetupWindow(uiRegistrationWindowController);
+            SetupWindow(uiMatchWindowController);
+            SetupWindow(uiProfileWindowController);
+            SetupWindow(uiChatWindowController);
         }
 
         public void ShowFirstWindow()

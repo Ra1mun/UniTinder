@@ -1,5 +1,7 @@
 ﻿using System;
+
 using UniTinder.Bootstrap.Interfaces;
+using UnityEngine;
 
 namespace UniTinder.UI.UIService
 {
@@ -15,6 +17,7 @@ namespace UniTinder.UI.UIService
 
         public void Execute()
         {
+            Debug.Log("Execute");
             _uiService.LoadWindows();
             _uiService.InitWindows();
             
