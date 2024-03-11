@@ -24,6 +24,7 @@ namespace UniTinder.UI.UIService
         public void LoadWindows()
         {
             var windows = Resources.LoadAll("UIWindows", typeof(UIWindow));
+            
             for (int i = 0; i < windows.Length; i++)
             {
                 _viewStorage.Add(windows[i].GetType(), (UIWindow)windows[i]);
@@ -38,7 +39,7 @@ namespace UniTinder.UI.UIService
             }
         }
     
-        public T Show<T>() where T : UIWindow
+        public void Show<T>() where T : UIWindow
         {
             var type = typeof(T);
             if (_instViews.ContainsKey(type))
@@ -61,9 +62,7 @@ namespace UniTinder.UI.UIService
                 }
                 
                 component.Show();
-                return component;
             }
-            return null;
         }
         
         public void Hide<T>(Action onEnd = null) where T : UIWindow
@@ -98,6 +97,20 @@ namespace UniTinder.UI.UIService
             
                 _instViews.Add(type, view);
             }
+        }
+        
+        public T Get<T>() where T : UIWindow
+        {
+            var type = typeof(T);
+            if (_instViews.ContainsKey(type))
+            {
+                var view = _instViews[type];
+                var viewComponent = view.GetComponent<T>();
+
+                return viewComponent;
+            }
+
+            return null;
         }
     }
 }

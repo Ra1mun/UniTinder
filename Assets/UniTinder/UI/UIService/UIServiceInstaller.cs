@@ -1,3 +1,4 @@
+using UniTinder.UI.Realisation;
 using Zenject;
 
 namespace UniTinder.UI.UIService
@@ -9,6 +10,34 @@ namespace UniTinder.UI.UIService
             Container
                 .Bind<UIRoot>()
                 .FromComponentInNewPrefabResource("UIRoot")
+                .AsSingle();
+
+            Container
+                .Bind<UIService>()
+                .AsSingle();
+
+            Container
+                .Bind<UIStartWindowController>()
+                .AsSingle();
+
+            Container
+                .Bind<UIRegistrationWindowController>()
+                .AsSingle();
+
+            Container
+                .Bind<UIProfileWindowController>()
+                .AsSingle();
+
+            Container
+                .Bind<UIMatchWindowController>()
+                .AsSingle();
+
+            Container
+                .Bind<UIChatWindowController>()
+                .AsSingle();
+
+            Container
+                .Bind<UIWindowsController>()
                 .AsSingle();
         }
     }
