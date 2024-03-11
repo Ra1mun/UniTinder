@@ -2,28 +2,28 @@
 
 namespace UniTinder.UI.Realisation
 {
-    public class UIStartWindowController : IWindowController
+    public class UIMatchWindowController : IWindowController
     {
         private readonly UIService.UIService _uiService;
-        private readonly UIStartWindow _uiStartWindow;
+        private readonly UIMatchWindow _uiMatchWindow;
         public Action GoToNext { get; set; }
         public Action GoToPrevious { get; set; }
 
-        public UIStartWindowController(UIService.UIService uiService)
+        public UIMatchWindowController(UIService.UIService uiService)
         {
             _uiService = uiService;
 
-            _uiStartWindow = _uiService.Get<UIStartWindow>();
+            _uiMatchWindow = _uiService.Get<UIMatchWindow>();
         }
-        
+
         public void ShowWindow()
         {
-            _uiService.Show<UIStartWindow>();
+            _uiService.Show<UIMatchWindow>();
         }
 
         public void HideWindow()
         {
-            _uiService.Hide<UIStartWindow>();
+            _uiService.Hide<UIMatchWindow>();
         }
     }
 }

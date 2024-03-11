@@ -19,11 +19,14 @@ namespace UniTinder.UI.UIService
         {
             _instantiator = instantiator;
             _uiRoot = uiRoot;
+
+            Debug.Log("Construct");
         }
 
         public void LoadWindows()
         {
             var windows = Resources.LoadAll("UIWindows", typeof(UIWindow));
+            
             for (int i = 0; i < windows.Length; i++)
             {
                 _viewStorage.Add(windows[i].GetType(), (UIWindow)windows[i]);
