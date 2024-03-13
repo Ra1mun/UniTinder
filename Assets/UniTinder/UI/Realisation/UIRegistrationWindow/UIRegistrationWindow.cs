@@ -15,7 +15,6 @@ namespace UniTinder.UI.Realisation
         public Action<string> OnSubmitNickname;
         public Action<string> OnSubmitEmail;
         public Action<string> OnSubmitCity;
-        public Action<string> OnSubmitBirthday;
         public Action<string> OnSubmitJob;
         public Action<int> OnSubmitExperienceTime;
 
@@ -28,7 +27,6 @@ namespace UniTinder.UI.Realisation
         [SerializeField] private UIChooseProfile avatarChooseProfile;
         [SerializeField] private Image firstProfileBackground;
         [SerializeField] private Image firstProfileAvatar;
-        [SerializeField] private DateInputField[] dateInputFields;
         [SerializeField] private TMP_InputField emailInputField;
         [SerializeField] private TMP_InputField cityInputField;
         [SerializeField] private Button nextStageButton;
@@ -49,11 +47,7 @@ namespace UniTinder.UI.Realisation
             avatarChooseButton.onClick.AddListener(OpenAvatarChoose);
             nextStageButton.onClick.AddListener(ShowNextStage);
             nicknameInputField.onEndEdit.AddListener(NicknameChanged);
-            for (int i = 0; i < dateInputFields.Length; i++)
-            {
-                
-            }
-            
+
             previousStageButton.onClick.AddListener(ShowPreviousStage);
             nextButton.onClick.AddListener(GoToNextButtonClick);
         }
@@ -147,19 +141,5 @@ namespace UniTinder.UI.Realisation
         {
             GoToNextWindowEvent?.Invoke();
         }
-    }
-    
-    [Serializable]
-    public class DateInputField
-    {
-        [SerializeField] private TMP_InputField dateInputField;
-        [SerializeField] private Date date;
-    }
-
-    public enum Date
-    {
-        Days,
-        Month,
-        Year
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using UnityEngine;
 
 namespace UniTinder.UI.Realisation
 {
@@ -21,6 +22,13 @@ namespace UniTinder.UI.Realisation
             _uiRegistrationWindow.GoToNextWindowEvent += GoToNext;
             
             _uiService.Show<UIRegistrationWindow>();
+        }
+
+        private void HandleBackground(Sprite sprite)
+        {
+            //Check write data
+            
+            
         }
         
         private void GoToNext()

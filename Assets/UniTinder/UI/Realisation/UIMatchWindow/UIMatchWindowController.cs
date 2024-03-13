@@ -6,8 +6,13 @@ namespace UniTinder.UI.Realisation
     {
         private readonly UIService.UIService _uiService;
         private readonly UIMatchWindow _uiMatchWindow;
+        
         public Action GoToNextWindow { get; set; }
         public Action GoToPreviousWindow { get; set; }
+        
+        public Action GoToChatWindow { get; set; }
+        
+        public Action GoToProfileWindow { get; set; }
 
         public UIMatchWindowController(UIService.UIService uiService)
         {
