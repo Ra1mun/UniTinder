@@ -1,4 +1,5 @@
 ﻿using System;
+using UnityEngine;
 
 namespace UniTinder.UI.Realisation
 {
@@ -18,10 +19,16 @@ namespace UniTinder.UI.Realisation
 
         public void ShowWindow()
         {
-            _uiRegistrationWindow.GoToPreviousWindowEvent += GoToPrevious;
             _uiRegistrationWindow.GoToNextWindowEvent += GoToNext;
             
             _uiService.Show<UIRegistrationWindow>();
+        }
+
+        private void HandleBackground(Sprite sprite)
+        {
+            //Check write data
+            
+            
         }
         
         private void GoToNext()
@@ -31,16 +38,8 @@ namespace UniTinder.UI.Realisation
             HideWindow();
         }
 
-        private void GoToPrevious()
-        {
-            GoToPreviousWindow?.Invoke();
-            
-            HideWindow();
-        }
-
         public void HideWindow()
         {
-            _uiRegistrationWindow.GoToPreviousWindowEvent -= GoToPrevious;
             _uiRegistrationWindow.GoToNextWindowEvent -= GoToNext;
             
             _uiService.Hide<UIRegistrationWindow>();
