@@ -1,0 +1,23 @@
+fileFormatVersion: 2
+guid: 0b8f0eaa34c402c44ba01b7f97f184d1
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontNames:
+  - Tinkoff Sans
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 10b1431950de4584f9a81dbfe8f05dfd, type: 3}
+  - {fileID: 12800000, guid: d1ae70efa3b479f4f80eec7d141608a3, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

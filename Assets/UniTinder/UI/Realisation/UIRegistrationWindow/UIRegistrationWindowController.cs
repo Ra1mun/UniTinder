@@ -18,7 +18,6 @@ namespace UniTinder.UI.Realisation
 
         public void ShowWindow()
         {
-            _uiRegistrationWindow.GoToPreviousWindowEvent += GoToPrevious;
             _uiRegistrationWindow.GoToNextWindowEvent += GoToNext;
             
             _uiService.Show<UIRegistrationWindow>();
@@ -31,16 +30,8 @@ namespace UniTinder.UI.Realisation
             HideWindow();
         }
 
-        private void GoToPrevious()
-        {
-            GoToPreviousWindow?.Invoke();
-            
-            HideWindow();
-        }
-
         public void HideWindow()
         {
-            _uiRegistrationWindow.GoToPreviousWindowEvent -= GoToPrevious;
             _uiRegistrationWindow.GoToNextWindowEvent -= GoToNext;
             
             _uiService.Hide<UIRegistrationWindow>();
