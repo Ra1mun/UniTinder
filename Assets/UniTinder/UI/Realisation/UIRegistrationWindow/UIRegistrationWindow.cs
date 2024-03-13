@@ -49,6 +49,10 @@ namespace UniTinder.UI.Realisation
             avatarChooseButton.onClick.AddListener(OpenAvatarChoose);
             nextStageButton.onClick.AddListener(ShowNextStage);
             nicknameInputField.onEndEdit.AddListener(NicknameChanged);
+            for (int i = 0; i < dateInputFields.Length; i++)
+            {
+                
+            }
             
             previousStageButton.onClick.AddListener(ShowPreviousStage);
             nextButton.onClick.AddListener(GoToNextButtonClick);
@@ -63,6 +67,14 @@ namespace UniTinder.UI.Realisation
             OnSubmitCity?.Invoke(cityInputField.text);
             OnSubmitJob?.Invoke(jobInputField.text);
             OnSubmitExperienceTime?.Invoke(experience.GetExperienceTime());
+            
+            backgroundChooseButton.onClick.RemoveListener(OpenBackgroundChoose);
+            avatarChooseButton.onClick.RemoveListener(OpenAvatarChoose);
+            nextStageButton.onClick.RemoveListener(ShowNextStage);
+            nicknameInputField.onEndEdit.RemoveListener(NicknameChanged);
+            
+            previousStageButton.onClick.RemoveListener(ShowPreviousStage);
+            nextButton.onClick.RemoveListener(GoToNextButtonClick);
         }
 
         private void OpenBackgroundChoose()
