@@ -20,16 +20,8 @@ namespace UniTinder.UI.Realisation
         public void ShowWindow()
         {
             _uiProfileWindow.GoToPreviousWindowEvent += GoToPrevious;
-            _uiProfileWindow.GoToNextWindowEvent += GoToNext;
-            
+
             _uiService.Show<UIProfileWindow>();
-        }
-        
-        private void GoToNext()
-        {
-            GoToNextWindow?.Invoke();
-            
-            HideWindow();
         }
 
         private void GoToPrevious()
@@ -42,8 +34,8 @@ namespace UniTinder.UI.Realisation
         public void HideWindow()
         {
             _uiProfileWindow.GoToPreviousWindowEvent -= GoToPrevious;
-            _uiProfileWindow.GoToNextWindowEvent -= GoToNext;
-            
+            _uiProfileWindow.RemoveAllInterest();
+
             _uiService.Hide<UIProfileWindow>();
         }
     }
