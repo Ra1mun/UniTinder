@@ -23,8 +23,8 @@ namespace UniTinder.UI.Realisation
         [SerializeField] private Button backgroundChooseButton;
         [SerializeField] private Button avatarChooseButton;
         [SerializeField] private TMP_InputField nicknameInputField;
-        [SerializeField] private UIChooseProfile backgroundChooseProfile;
-        [SerializeField] private UIChooseProfile avatarChooseProfile;
+        [FormerlySerializedAs("backgroundChooseProfile")] [SerializeField] private UIChooseProfileConfiguration backgroundChooseProfileConfiguration;
+        [FormerlySerializedAs("avatarChooseProfile")] [SerializeField] private UIChooseProfileConfiguration avatarChooseProfileConfiguration;
         [SerializeField] private Image firstProfileBackground;
         [SerializeField] private Image firstProfileAvatar;
         [SerializeField] private TMP_InputField emailInputField;
@@ -33,22 +33,30 @@ namespace UniTinder.UI.Realisation
 
         [Header("Stage second")]
         [SerializeField] private CanvasGroup secondStage;
-        [SerializeField] private Button previousStageButton;
+        [SerializeField] private Button goToFirstStageButton;
         [FormerlySerializedAs("profileBackground")] [SerializeField] private Image secondProfileBackground;
         [FormerlySerializedAs("profileAvatar")] [SerializeField] private Image secondProfileAvatar;
         [SerializeField] private TMP_Text profileNickname;
         [SerializeField] private TMP_InputField jobInputField;
-        [SerializeField] private UIExperience experience;
+        [FormerlySerializedAs("experience")] [SerializeField] private UIExperienceTime experienceTime;
+        [SerializeField] private Button goToThirdStageButton;
+        
+        [Header("Stage third")]
+        [SerializeField] private CanvasGroup thirdStage;
+        [SerializeField] private Button goToSecondStageButton;
         [SerializeField] private Button nextButton;
         
         public override void Show()
         {
             backgroundChooseButton.onClick.AddListener(OpenBackgroundChoose);
             avatarChooseButton.onClick.AddListener(OpenAvatarChoose);
-            nextStageButton.onClick.AddListener(ShowNextStage);
+            nextStageButton.onClick.AddListener(ShowSecondStage);
             nicknameInputField.onEndEdit.AddListener(NicknameChanged);
 
-            previousStageButton.onClick.AddListener(ShowPreviousStage);
+            goToFirstStageButton.onClick.AddListener(ShowFirstStage);
+            goToThirdStageButton.onClick.AddListener(ShowThirdStage);
+            
+            goToSecondStageButton.onClick.AddListener(ShowSecondStage);
             nextButton.onClick.AddListener(GoToNextButtonClick);
         }
 
@@ -60,33 +68,35 @@ namespace UniTinder.UI.Realisation
             OnSubmitEmail?.Invoke(emailInputField.text);
             OnSubmitCity?.Invoke(cityInputField.text);
             OnSubmitJob?.Invoke(jobInputField.text);
-            OnSubmitExperienceTime?.Invoke(experience.GetExperienceTime());
+            OnSubmitExperienceTime?.Invoke(experienceTime.GetExperienceTime());
             
             backgroundChooseButton.onClick.RemoveListener(OpenBackgroundChoose);
             avatarChooseButton.onClick.RemoveListener(OpenAvatarChoose);
-            nextStageButton.onClick.RemoveListener(ShowNextStage);
+            nextStageButton.onClick.RemoveListener(ShowSecondStage);
+            goToThirdStageButton.onClick.RemoveListener(ShowThirdStage);
+            goToSecondStageButton.onClick.RemoveListener(ShowSecondStage);
             nicknameInputField.onEndEdit.RemoveListener(NicknameChanged);
-            
-            previousStageButton.onClick.RemoveListener(ShowPreviousStage);
+
+            goToFirstStageButton.onClick.RemoveListener(ShowFirstStage);
             nextButton.onClick.RemoveListener(GoToNextButtonClick);
         }
 
         private void OpenBackgroundChoose()
         {
-            backgroundChooseProfile.gameObject.SetActive(true);
+            backgroundChooseProfileConfiguration.gameObject.SetActive(true);
             
-            backgroundChooseProfile.OnProfileChosen += BackgroundChosen;
+            backgroundChooseProfileConfiguration.OnProfileChosen += BackgroundChosen;
 
-            backgroundChooseProfile.BackStageButtonClickEvent += CloseProfileChoose;
+            backgroundChooseProfileConfiguration.BackStageButtonClickEvent += CloseProfileConfiguration;
         }
 
         private void OpenAvatarChoose()
         {
-            avatarChooseProfile.gameObject.SetActive(true);
+            avatarChooseProfileConfiguration.gameObject.SetActive(true);
             
-            avatarChooseProfile.OnProfileChosen += AvatarChosen;
+            avatarChooseProfileConfiguration.OnProfileChosen += AvatarChosen;
             
-            avatarChooseProfile.BackStageButtonClickEvent += CloseProfileChoose;
+            avatarChooseProfileConfiguration.BackStageButtonClickEvent += CloseProfileConfiguration;
         }
 
         private void BackgroundChosen(Sprite sprite)
@@ -94,11 +104,11 @@ namespace UniTinder.UI.Realisation
             firstProfileBackground.sprite = sprite;
             secondProfileBackground.sprite = sprite;
             
-            backgroundChooseProfile.OnProfileChosen -= BackgroundChosen;
+            backgroundChooseProfileConfiguration.OnProfileChosen -= BackgroundChosen;
             
-            backgroundChooseProfile.BackStageButtonClickEvent -= CloseProfileChoose;
+            backgroundChooseProfileConfiguration.BackStageButtonClickEvent -= CloseProfileConfiguration;
 
-            CloseProfileChoose(backgroundChooseProfile.gameObject);
+            CloseProfileConfiguration(backgroundChooseProfileConfiguration.gameObject);
         }
         
         private void AvatarChosen(Sprite sprite)
@@ -106,14 +116,14 @@ namespace UniTinder.UI.Realisation
             firstProfileAvatar.sprite = sprite;
             secondProfileAvatar.sprite = sprite;
             
-            avatarChooseProfile.OnProfileChosen -= AvatarChosen;
+            avatarChooseProfileConfiguration.OnProfileChosen -= AvatarChosen;
             
-            avatarChooseProfile.BackStageButtonClickEvent -= CloseProfileChoose;
+            avatarChooseProfileConfiguration.BackStageButtonClickEvent -= CloseProfileConfiguration;
             
-            CloseProfileChoose(avatarChooseProfile.gameObject);
+            CloseProfileConfiguration(avatarChooseProfileConfiguration.gameObject);
         }
         
-        private void CloseProfileChoose(GameObject obj)
+        private void CloseProfileConfiguration(GameObject obj)
         {
             obj.SetActive(false);
         }
@@ -123,18 +133,31 @@ namespace UniTinder.UI.Realisation
             profileNickname.text = nickName;
         }
 
-        private void ShowNextStage()
-        {
-            firstStage.gameObject.SetActive(false);
-            
-            secondStage.gameObject.SetActive(true);
-        }
-
-        private void ShowPreviousStage()
+        private void ShowFirstStage()
         {
             firstStage.gameObject.SetActive(true);
             
             secondStage.gameObject.SetActive(false);
+            
+            thirdStage.gameObject.SetActive(false);
+        }
+
+        private void ShowSecondStage()
+        {
+            firstStage.gameObject.SetActive(false);
+            
+            secondStage.gameObject.SetActive(true);
+            
+            thirdStage.gameObject.SetActive(false);
+        }
+        
+        private void ShowThirdStage()
+        {
+            firstStage.gameObject.SetActive(false);
+            
+            secondStage.gameObject.SetActive(false);
+            
+            thirdStage.gameObject.SetActive(true);
         }
         
         private void GoToNextButtonClick()
