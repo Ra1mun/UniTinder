@@ -19,6 +19,10 @@ namespace UniTinder.UI.UIService
             Container
                 .Bind<UIStartWindowController>()
                 .AsSingle();
+            
+            Container
+                .Bind<UILoginWindowController>()
+                .AsSingle();
 
             Container
                 .Bind<UIRegistrationWindowController>()

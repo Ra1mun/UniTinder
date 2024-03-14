@@ -713,8 +713,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 403e3865ec923a948bca8f1b0f74d5bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nextButton: {fileID: 4624554027647424092}
-  previousButton: {fileID: 318955529568441993}
+  profileButton: {fileID: 4624554027647424092}
+  chatButton: {fileID: 318955529568441993}
 --- !u!222 &3307899310232561469
 CanvasRenderer:
   m_ObjectHideFlags: 0

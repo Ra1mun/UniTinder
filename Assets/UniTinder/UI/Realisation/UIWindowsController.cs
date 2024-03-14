@@ -7,10 +7,12 @@ namespace UniTinder.UI.Realisation
     {
         private readonly UIProfileWindowController _uiProfileWindowController;
         private readonly UIChatWindowController _uiChatWindowController;
+        
         private readonly LinkedList<IWindowController> _windowControllers = new LinkedList<IWindowController>();
 
         public UIWindowsController(
             UIStartWindowController uiStartWindowController,
+            UILoginWindowController uiLoginWindowController,
             UIRegistrationWindowController uiRegistrationWindowController,
             UIMatchWindowController uiMatchWindowController,
             UIProfileWindowController uiProfileWindowController,
@@ -20,6 +22,7 @@ namespace UniTinder.UI.Realisation
             _uiChatWindowController = uiChatWindowController;
             
             SetupWindow(uiStartWindowController);
+            SetupWindow(uiLoginWindowController);
             SetupWindow(uiRegistrationWindowController);
             SetupMatch(uiMatchWindowController);
             SetupProfile(uiProfileWindowController);
@@ -49,6 +52,13 @@ namespace UniTinder.UI.Realisation
 
         private void SetupMatch(UIMatchWindowController matchWindowController)
         {
+            if (_windowControllers.Last != null)
+            {
+                _windowControllers.Last.Value.GoToNextWindow += matchWindowController.ShowWindow;
+            
+                matchWindowController.GoToPreviousWindow += _windowControllers.Last.Value.ShowWindow;
+            }
+            
             if (_uiProfileWindowController != null)
             {
                 matchWindowController.GoToProfileWindow += _uiProfileWindowController.ShowWindow;

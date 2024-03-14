@@ -10,29 +10,29 @@ namespace UniTinder.UI.Realisation
         public Action GoToNextWindowEvent;
         public Action GoToPreviousWindowEvent;
         
-        [SerializeField] private Button nextButton;
-        [SerializeField] private Button previousButton;
+        [SerializeField] private Button profileButton;
+        [SerializeField] private Button chatButton;
         
         public override void Show()
         {
-            nextButton.onClick.AddListener(GoToNextButtonClick);
-            previousButton.onClick.AddListener(GoToPreviousButtonClick);
+            profileButton.onClick.AddListener(ProfileButtonClick);
+            chatButton.onClick.AddListener(ChatButtonClick);
         }
 
-        private void GoToNextButtonClick()
+        private void ProfileButtonClick()
         {
             GoToNextWindowEvent?.Invoke();
         }
         
-        private void GoToPreviousButtonClick()
+        private void ChatButtonClick()
         {
             GoToPreviousWindowEvent?.Invoke();
         }
         
         public override void Hide()
         {
-            nextButton.onClick.RemoveListener(GoToNextButtonClick);
-            previousButton.onClick.RemoveListener(GoToPreviousButtonClick);
+            profileButton.onClick.AddListener(ProfileButtonClick);
+            chatButton.onClick.AddListener(ChatButtonClick);
         }
     }
 }
