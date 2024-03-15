@@ -1,4 +1,5 @@
 using UniTinder.Network;
+using UnityEditor.PackageManager;
 using UnityEngine;
 
 public class ClientHandle
@@ -19,7 +20,8 @@ public class ClientHandle
 
         Debug.Log($"Message from server: {message}");
         _networkService.SetUserID(id);
-        _clientSend.WelcomeReceived();
+        Debug.Log(_networkService.GetUserID());
+        //_clientSend.WelcomeReceived();
     }
 
     public void SendMessageToServer(Packet packet)
@@ -29,7 +31,25 @@ public class ClientHandle
 
         Debug.Log($"Message from server: {message}");
         _networkService.SetUserID(id);
-        _clientSend.WelcomeReceived();
+        //_clientSend.WelcomeReceived();
     }
 
+
+
+
+    public void RegisteredNewUser(Packet packet)
+    {
+        string message = packet.ReadString();
+        int myId = packet.ReadInt();
+
+        Debug.Log($"Message from server: {message}");
+       // Client.Instance.myId = myId;
+       // ClientSend.WelcomeReceived();
+    }
+
+    public void SendIntoApp(Packet packet)
+    {
+        //Client.Instance.IdInDatabase = packet.ReadInt();
+        //UIManager.Instance.ToAppTrigger();
+    } 
 }

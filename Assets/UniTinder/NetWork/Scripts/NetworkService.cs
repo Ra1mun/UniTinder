@@ -72,7 +72,10 @@ namespace UniTinder.Network
         {
             _packetHandlers = new Dictionary<int, PacketHandler>()
             {
-                {(int)ServerPackets.welcome, _clientHandle.Welcome }
+                {(int)ServerPackets.welcome, _clientHandle.Welcome },
+                {(int)ServerPackets.registeredNewUser, _clientHandle.RegisteredNewUser },
+                {(int)ServerPackets.sendIntoApp, _clientHandle.SendIntoApp },
+
             };
             Debug.Log("Initialized Client Data");
         }

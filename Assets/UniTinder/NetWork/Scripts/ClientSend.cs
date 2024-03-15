@@ -16,11 +16,14 @@ public class ClientSend
         _networkService.TCP.SendData(packet);
     }
 
-    public void WelcomeReceived()
+    public void TryAuthorize() // записать сюда емэйл и пароль
     {
         using (Packet packet = new Packet((int)ClientPackets.welcomeReceived))
         {
-            packet.Write(_networkService.GetUserID());
+
+            //packet.Write(_networkService.GetUserID());
+            // packet.Write(Email)
+            // packet.Write(password)
 
             SendTCPData(packet);
         }
