@@ -20,7 +20,13 @@ namespace UniTinder.UI.Realisation
         public void ShowWindow()
         {
             _uiRegistrationWindow.GoToNextWindowEvent += GoToNext;
+            
             _uiRegistrationWindow.SelectInputFieldEvent += ShowKeyboard;
+            
+            _uiRegistrationWindow.OnSubmitNickname += HandleNickname;
+            _uiRegistrationWindow.OnSubmitEmail += HandleEmail;
+            _uiRegistrationWindow.OnSubmitCity += HandleCity;
+            _uiRegistrationWindow.OnSubmitJob += HandleJob;
             
             _uiService.Show<UIRegistrationWindow>();
         }
@@ -28,6 +34,26 @@ namespace UniTinder.UI.Realisation
         private void ShowKeyboard()
         {
             TouchScreenKeyboard.Open("", TouchScreenKeyboardType.Default);
+        }
+
+        private void HandleNickname(string nickname)
+        {
+            
+        }
+        
+        private void HandleEmail(string email)
+        {
+            
+        }
+        
+        private void HandleCity(string cityName)
+        {
+            
+        }
+
+        private void HandleJob(string jobName)
+        {
+            
         }
 
         private void HandleBackground(Sprite sprite)
@@ -47,6 +73,13 @@ namespace UniTinder.UI.Realisation
         public void HideWindow()
         {
             _uiRegistrationWindow.GoToNextWindowEvent -= GoToNext;
+            
+            _uiRegistrationWindow.SelectInputFieldEvent -= ShowKeyboard;
+            
+            _uiRegistrationWindow.OnSubmitNickname -= HandleNickname;
+            _uiRegistrationWindow.OnSubmitEmail -= HandleEmail;
+            _uiRegistrationWindow.OnSubmitCity -= HandleCity;
+            _uiRegistrationWindow.OnSubmitJob -= HandleJob;
             
             _uiService.Hide<UIRegistrationWindow>();
         }
