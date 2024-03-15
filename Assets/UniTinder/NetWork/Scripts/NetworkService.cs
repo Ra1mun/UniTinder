@@ -5,8 +5,11 @@ using Zenject;
 
 namespace UniTinder.Network
 {
-    public class NetworkService : ILateDisposable
+    public class NetworkService : ILateDisposable, ITickable
     {
+        private readonly TickableManager _tickableManager;
+        private readonly ThreadManager _threadManager;
+
         public delegate void PacketHandler(Packet packet);
         public readonly int DataBufferSize = 4096;
         
@@ -18,18 +21,41 @@ namespace UniTinder.Network
         private bool _isConnected;
         private Dictionary<int, PacketHandler> _packetHandlers;
         private int _id;
+        private bool _isActive;
         
         public Dictionary<int, PacketHandler> PacketHandlers => _packetHandlers;
         public TCP TCP => _tcp;
 
         
         
-        public NetworkService(DevelopmentSettings developmentSettings, ThreadManager threadManager)
+        public NetworkService(DevelopmentSettings developmentSettings, TickableManager tickableManager)
         {
+            _tickableManager = tickableManager;
+            _threadManager = new ThreadManager();
             _clientSend = new ClientSend(this);
             _clientHandle = new ClientHandle(this, _clientSend);
             
-            _tcp = new TCP(this, developmentSettings.IP, developmentSettings.Port, threadManager);
+            _tcp = new TCP(this, developmentSettings.IP, developmentSettings.Port, _threadManager);
+            Enable();
+        }
+
+        private void Enable()
+        {
+            if (!_isActive)
+            {
+                _tickableManager.Add(this);
+                _isActive = true;
+            }
+            
+        }
+
+        private void Disable()
+        {
+            if (_isActive)
+            {
+                _tickableManager.Remove(this);
+                _isActive = false;
+            }
         }
 
         public void SetUserID(int id)
@@ -63,8 +89,15 @@ namespace UniTinder.Network
 
         }
         
+        public void Tick()
+        {
+            Debug.Log("ss");
+            _threadManager.UpdateMain();
+        }
+        
         public void LateDispose()
         {
+            Disable();
             Disconnect();
         }
 
@@ -79,5 +112,7 @@ namespace UniTinder.Network
             };
             Debug.Log("Initialized Client Data");
         }
+
+        
     }
 }

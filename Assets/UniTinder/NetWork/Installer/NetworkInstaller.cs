@@ -7,10 +7,6 @@ namespace UniTinder.Network
         public override void InstallBindings()
         {
             Container
-                .Bind<ThreadManager>()
-                .AsSingle();
-            
-            Container
                 .Bind<NetworkService>()
                 .AsSingle();
         }

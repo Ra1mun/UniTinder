@@ -5,7 +5,7 @@ using Zenject;
 
 namespace UniTinder.Network
 {
-    public class ThreadManager : ITickable
+    public class ThreadManager
     {
         private static readonly List<Action> executeOnMainThread = new List<Action>();
         private static readonly List<Action> executeCopiedOnMainThread = new List<Action>();
@@ -27,15 +27,10 @@ namespace UniTinder.Network
                 actionToExecuteOnMainThread = true;
             }
         }
-
-
-        public void Tick()
-        {
-            UpdateMain();
-        }
+        
 
         /// <summary>Executes all code meant to run on the main thread. NOTE: Call this ONLY from the main thread.</summary>
-        private void UpdateMain()
+        public void UpdateMain()
         {
             if (actionToExecuteOnMainThread)
             {
