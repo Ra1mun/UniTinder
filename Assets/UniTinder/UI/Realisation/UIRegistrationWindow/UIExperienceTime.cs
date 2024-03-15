@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 namespace UniTinder.UI.Realisation
 {
-    public class UIExperience : MonoBehaviour
+    public class UIExperienceTime : MonoBehaviour
     {
         [SerializeField] private Button addButton;
         [SerializeField] private Button minusButton;
