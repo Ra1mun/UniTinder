@@ -1,4 +1,5 @@
 ﻿using System;
+using UniTinder.Network;
 
 namespace UniTinder.UI.Realisation
 {
@@ -11,11 +12,12 @@ namespace UniTinder.UI.Realisation
 
         private readonly UILoginWindow _uiLoginWindow;
         private readonly UIService.UIService _uiService;
+        private readonly NetworkService netWork;
 
-        public UILoginWindowController(UIService.UIService uiService)
+        public UILoginWindowController(UIService.UIService uiService, Network.NetworkService netWork)
         {
             _uiService = uiService;
-
+            this.netWork = netWork;
             _uiLoginWindow = uiService.Get<UILoginWindow>();
         }
         
@@ -29,7 +31,7 @@ namespace UniTinder.UI.Realisation
 
         private void HandleUserData(string email, string password)
         {
-            
+            netWork.ConnectToServer();
             GoToNext();
         }
 
@@ -42,6 +44,7 @@ namespace UniTinder.UI.Realisation
 
         private void GoToRegistration()
         {
+            netWork.ConnectToServer();
             GoToRegistrationWindow?.Invoke();
             
             HideWindow();

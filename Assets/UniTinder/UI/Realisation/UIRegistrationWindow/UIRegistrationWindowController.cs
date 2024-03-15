@@ -1,4 +1,5 @@
 ﻿using System;
+using UniTinder.Network;
 using UnityEngine;
 
 namespace UniTinder.UI.Realisation
@@ -6,14 +7,15 @@ namespace UniTinder.UI.Realisation
     public class UIRegistrationWindowController : IWindowController
     {
         private readonly UIService.UIService _uiService;
+        private readonly NetworkService network;
         private readonly UIRegistrationWindow _uiRegistrationWindow;
         public Action GoToNextWindow { get; set; }
         public Action GoToPreviousWindow { get; set; }
 
-        public UIRegistrationWindowController(UIService.UIService uiService)
+        public UIRegistrationWindowController(UIService.UIService uiService, Network.NetworkService network)
         {
             _uiService = uiService;
-
+            this.network = network;
             _uiRegistrationWindow = _uiService.Get<UIRegistrationWindow>();
         }
 
