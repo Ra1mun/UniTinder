@@ -7,32 +7,47 @@ namespace UniTinder.UI.Realisation
 {
     public class UIMatchWindow : UIWindow
     {
-        public Action GoToNextWindowEvent;
-        public Action GoToPreviousWindowEvent;
+        public event Action OnChatButtonClickEvent;
+        public event Action OnProfileButtonClickEvent;
         
-        [SerializeField] private Button nextButton;
-        [SerializeField] private Button previousButton;
+        [SerializeField] private Button chatButton;
+        [SerializeField] private Button profileButton;
+        [SerializeField] private RectTransform matchUserContainer;
+
+        private MatchUser _currentUser;
         
         public override void Show()
         {
-            nextButton.onClick.AddListener(GoToNextButtonClick);
-            previousButton.onClick.AddListener(GoToPreviousButtonClick);
+            chatButton.onClick.AddListener(ChatButtonClick);
+            profileButton.onClick.AddListener(ProfileButtonClick);
         }
 
-        private void GoToNextButtonClick()
+        public void ShowNewMatchUser(MatchUser view)
         {
-            GoToNextWindowEvent?.Invoke();
+            if (_currentUser != null)
+            {
+                _currentUser.gameObject.SetActive(false);
+            }
+            
+            view.transform.SetParent(matchUserContainer);
+            _currentUser = view;
+            view.gameObject.SetActive(true);
+        }
+
+        private void ChatButtonClick()
+        {
+            OnChatButtonClickEvent?.Invoke();
         }
         
-        private void GoToPreviousButtonClick()
+        private void ProfileButtonClick()
         {
-            GoToPreviousWindowEvent?.Invoke();
+            OnProfileButtonClickEvent?.Invoke();
         }
         
         public override void Hide()
         {
-            nextButton.onClick.RemoveListener(GoToNextButtonClick);
-            previousButton.onClick.RemoveListener(GoToPreviousButtonClick);
+            chatButton.onClick.RemoveListener(ChatButtonClick);
+            profileButton.onClick.RemoveListener(ProfileButtonClick);
         }
     }
 }

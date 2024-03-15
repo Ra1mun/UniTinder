@@ -1,4 +1,5 @@
 ﻿using System;
+using UnityEngine;
 
 namespace UniTinder.UI.Realisation
 {
@@ -19,8 +20,19 @@ namespace UniTinder.UI.Realisation
         public void ShowWindow()
         {
             _uiChatWindow.GoToPreviousWindowEvent += GoToPrevious;
+            _uiChatWindow.SendMessageEvent += SendMessage;
             
             _uiService.Show<UIChatWindow>();
+        }
+
+        private void SendMessage(string text)
+        {
+            if (text == null)
+            {
+                Debug.LogError("Message is null");
+                
+                return;
+            }
         }
 
         private void GoToPrevious()
@@ -33,6 +45,7 @@ namespace UniTinder.UI.Realisation
         public void HideWindow()
         {
             _uiChatWindow.GoToPreviousWindowEvent -= GoToPrevious;
+            _uiChatWindow.SendMessageEvent -= SendMessage;
             
             _uiService.Hide<UIChatWindow>();
         }
