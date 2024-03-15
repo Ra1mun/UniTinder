@@ -4,12 +4,12 @@ namespace UniTinder.UI.Realisation
 {
     public class UIMatchWindowController : IWindowController
     {
-        private readonly UIService.UIService _uiService;
-        private readonly UIMatchWindow _uiMatchWindow;
-        
         public Action GoToNextWindow { get; set; }
         public Action GoToPreviousWindow { get; set; }
         
+        private readonly UIService.UIService _uiService;
+        private readonly UIMatchWindow _uiMatchWindow;
+
         public Action GoToChatWindow { get; set; }
         
         public Action GoToProfileWindow { get; set; }
@@ -23,30 +23,30 @@ namespace UniTinder.UI.Realisation
 
         public void ShowWindow()
         {
-            _uiMatchWindow.GoToPreviousWindowEvent += GoToPrevious;
-            _uiMatchWindow.GoToNextWindowEvent += GoToNext;
+            _uiMatchWindow.OnChatButtonClickEvent += GoToChat;
+            _uiMatchWindow.OnProfileButtonClickEvent += GoToProfile;
             
             _uiService.Show<UIMatchWindow>();
         }
 
-        private void GoToNext()
+        private void GoToChat()
         {
-            GoToNextWindow?.Invoke();
+            GoToChatWindow?.Invoke();
             
             HideWindow();
         }
 
-        private void GoToPrevious()
+        private void GoToProfile()
         {
-            GoToPreviousWindow?.Invoke();
+            GoToProfileWindow?.Invoke();
             
             HideWindow();
         }
 
         public void HideWindow()
         {
-            _uiMatchWindow.GoToPreviousWindowEvent -= GoToPrevious;
-            _uiMatchWindow.GoToNextWindowEvent -= GoToNext;
+            _uiMatchWindow.OnChatButtonClickEvent += GoToChat;
+            _uiMatchWindow.OnProfileButtonClickEvent += GoToProfile;
             
             _uiService.Hide<UIMatchWindow>();
         }
