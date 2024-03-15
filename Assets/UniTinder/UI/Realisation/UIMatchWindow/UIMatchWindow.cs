@@ -7,32 +7,47 @@ namespace UniTinder.UI.Realisation
 {
     public class UIMatchWindow : UIWindow
     {
-        public Action GoToNextWindowEvent;
-        public Action GoToPreviousWindowEvent;
+        public event Action OnChatButtonClickEvent;
+        public event Action OnProfileButtonClickEvent;
         
-        [SerializeField] private Button profileButton;
         [SerializeField] private Button chatButton;
+        [SerializeField] private Button profileButton;
+        [SerializeField] private RectTransform matchUserContainer;
+
+        private MatchUser _currentUser;
         
         public override void Show()
         {
-            profileButton.onClick.AddListener(ProfileButtonClick);
             chatButton.onClick.AddListener(ChatButtonClick);
+            profileButton.onClick.AddListener(ProfileButtonClick);
         }
 
-        private void ProfileButtonClick()
+        public void ShowNewMatchUser(MatchUser view)
         {
-            GoToNextWindowEvent?.Invoke();
+            if (_currentUser != null)
+            {
+                _currentUser.gameObject.SetActive(false);
+            }
+            
+            view.transform.SetParent(matchUserContainer);
+            _currentUser = view;
+            view.gameObject.SetActive(true);
         }
-        
+
         private void ChatButtonClick()
         {
-            GoToPreviousWindowEvent?.Invoke();
+            OnChatButtonClickEvent?.Invoke();
+        }
+        
+        private void ProfileButtonClick()
+        {
+            OnProfileButtonClickEvent?.Invoke();
         }
         
         public override void Hide()
         {
-            profileButton.onClick.AddListener(ProfileButtonClick);
-            chatButton.onClick.AddListener(ChatButtonClick);
+            chatButton.onClick.RemoveListener(ChatButtonClick);
+            profileButton.onClick.RemoveListener(ProfileButtonClick);
         }
     }
 }

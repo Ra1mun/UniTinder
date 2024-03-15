@@ -21,6 +21,8 @@ namespace UniTinder.UI.Realisation
 
         [Header("Stage first")] 
         [SerializeField] private CanvasGroup firstStage;
+        [SerializeField] private TMP_Text backgroundChooseButtonText;
+        [SerializeField] private TMP_Text avatarChooseButtonText;
         [SerializeField] private Button backgroundChooseButton;
         [SerializeField] private Button avatarChooseButton;
         [SerializeField] private TMP_InputField nicknameInputField;
@@ -125,6 +127,8 @@ namespace UniTinder.UI.Realisation
             backgroundChooseProfileConfiguration.OnProfileChosen -= BackgroundChosen;
             
             backgroundChooseProfileConfiguration.BackStageButtonClickEvent -= CloseProfileConfiguration;
+            
+            backgroundChooseButtonText.text = String.Empty;
 
             CloseProfileConfiguration(backgroundChooseProfileConfiguration.gameObject);
         }
@@ -137,6 +141,8 @@ namespace UniTinder.UI.Realisation
             avatarChooseProfileConfiguration.OnProfileChosen -= AvatarChosen;
             
             avatarChooseProfileConfiguration.BackStageButtonClickEvent -= CloseProfileConfiguration;
+            
+            avatarChooseButtonText.text = String.Empty;
             
             CloseProfileConfiguration(avatarChooseProfileConfiguration.gameObject);
         }
