@@ -10,13 +10,14 @@ namespace UniTinder.UI.Realisation
     public class UIRegistrationWindow : UIWindow
     {
         public Action GoToNextWindowEvent;
-        public Action<Sprite> OnSubmitAvatar;
-        public Action<Sprite> OnSubmitBackground;
-        public Action<string> OnSubmitNickname;
-        public Action<string> OnSubmitEmail;
-        public Action<string> OnSubmitCity;
-        public Action<string> OnSubmitJob;
-        public Action<int> OnSubmitExperienceTime;
+        public event Action SelectInputFieldEvent;
+        public event Action<Sprite> OnSubmitAvatar;
+        public event Action<Sprite> OnSubmitBackground;
+        public event Action<string> OnSubmitNickname;
+        public event Action<string> OnSubmitEmail;
+        public event Action<string> OnSubmitCity;
+        public event Action<string> OnSubmitJob;
+        public event Action<int> OnSubmitExperienceTime;
 
         [Header("Stage first")] 
         [SerializeField] private CanvasGroup firstStage;
@@ -48,6 +49,12 @@ namespace UniTinder.UI.Realisation
         
         public override void Show()
         {
+            nicknameInputField.onSelect.AddListener(SelectInputField);
+            emailInputField.onSelect.AddListener(SelectInputField);
+            cityInputField.onSelect.AddListener(SelectInputField);
+            jobInputField.onSelect.AddListener(SelectInputField);
+
+
             backgroundChooseButton.onClick.AddListener(OpenBackgroundChoose);
             avatarChooseButton.onClick.AddListener(OpenAvatarChoose);
             nextStageButton.onClick.AddListener(ShowSecondStage);
@@ -70,15 +77,26 @@ namespace UniTinder.UI.Realisation
             OnSubmitJob?.Invoke(jobInputField.text);
             OnSubmitExperienceTime?.Invoke(experienceTime.GetExperienceTime());
             
+            nicknameInputField.onSelect.RemoveListener(SelectInputField);
+            emailInputField.onSelect.RemoveListener(SelectInputField);
+            cityInputField.onSelect.RemoveListener(SelectInputField);
+            jobInputField.onSelect.RemoveListener(SelectInputField);
+            
             backgroundChooseButton.onClick.RemoveListener(OpenBackgroundChoose);
             avatarChooseButton.onClick.RemoveListener(OpenAvatarChoose);
             nextStageButton.onClick.RemoveListener(ShowSecondStage);
-            goToThirdStageButton.onClick.RemoveListener(ShowThirdStage);
-            goToSecondStageButton.onClick.RemoveListener(ShowSecondStage);
             nicknameInputField.onEndEdit.RemoveListener(NicknameChanged);
 
             goToFirstStageButton.onClick.RemoveListener(ShowFirstStage);
+            goToThirdStageButton.onClick.RemoveListener(ShowThirdStage);
+            
+            goToSecondStageButton.onClick.RemoveListener(ShowSecondStage);
             nextButton.onClick.RemoveListener(GoToNextButtonClick);
+        }
+
+        private void SelectInputField(string arg0)
+        {
+            SelectInputFieldEvent?.Invoke();
         }
 
         private void OpenBackgroundChoose()

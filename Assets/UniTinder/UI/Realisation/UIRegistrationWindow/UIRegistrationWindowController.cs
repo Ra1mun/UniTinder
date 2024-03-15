@@ -20,8 +20,14 @@ namespace UniTinder.UI.Realisation
         public void ShowWindow()
         {
             _uiRegistrationWindow.GoToNextWindowEvent += GoToNext;
+            _uiRegistrationWindow.SelectInputFieldEvent += ShowKeyboard;
             
             _uiService.Show<UIRegistrationWindow>();
+        }
+
+        private void ShowKeyboard()
+        {
+            TouchScreenKeyboard.Open("", TouchScreenKeyboardType.Default);
         }
 
         private void HandleBackground(Sprite sprite)
