@@ -9,18 +9,25 @@ namespace UniTinder.UI.Realisation
     public class UIChatWindow : UIWindow
     {
         public Action GoToPreviousWindowEvent;
-        public Action SendMessageEvent;
+        public Action<string> SendMessageEvent;
         
         [SerializeField] private Button sendMessage;
         [SerializeField] private Button previousButton;
+        [SerializeField] private TMP_InputField messageInputField;
+        
         public override void Show()
         {
             previousButton.onClick.AddListener(GoToPreviousButtonClick);
             sendMessage.onClick.AddListener(SendMessage);
         }
+        public void AddMessage(MessageView view)
+        {
+            view.transform.SetParent(transform);
+        }
+        
         private void SendMessage()
         {
-            SendMessageEvent?.Invoke();
+            SendMessageEvent?.Invoke(messageInputField.text);
         }
         private void GoToPreviousButtonClick()
         {
@@ -30,10 +37,6 @@ namespace UniTinder.UI.Realisation
         public override void Hide()
         {
             previousButton.onClick.RemoveListener(GoToPreviousButtonClick);
-        }
-        public void AddMessage(MessageView view)
-        {
-            view.transform.SetParent(transform);
         }
     }
 }
