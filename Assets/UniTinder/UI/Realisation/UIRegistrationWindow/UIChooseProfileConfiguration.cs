@@ -1,10 +1,11 @@
 ﻿using System;
+using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace UniTinder.UI.Realisation
 {
-    public class UIChooseProfile : MonoBehaviour
+    public class UIChooseProfileConfiguration : MonoBehaviour
     {
         public event Action<Sprite> OnProfileChosen;
         public event Action<GameObject> BackStageButtonClickEvent;
