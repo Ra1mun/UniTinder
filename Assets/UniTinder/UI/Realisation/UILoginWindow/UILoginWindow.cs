@@ -1,4 +1,5 @@
 ﻿using System;
+using TMPro;
 using UniTinder.UI.UIService;
 using UnityEngine;
 using UnityEngine.UI;
@@ -7,32 +8,34 @@ namespace UniTinder.UI.Realisation
 {
     public class UILoginWindow : UIWindow
     {
-        public event Action NextButtonClickEvent;
-        public event Action PreviousButtonClickEvent;
-        
+        public event Action<string, string> OnSubmitUserData;
+        public event Action OnRegistrationButtonClickEvent;
+
+        [SerializeField] private TMP_InputField emailInputField;
+        [SerializeField] private TMP_InputField passwordInputField;
         [SerializeField] private Button nextButton;
-        [SerializeField] private Button previousButton;
-        
+        [SerializeField] private Button registrationButton;
+
         public override void Show()
         {
             nextButton.onClick.AddListener(NextButtonClick);
-            previousButton.onClick.AddListener(PreviousButtonClick);
+            registrationButton.onClick.AddListener(RegistrationButtonClick);
         }
 
         private void NextButtonClick()
         {
-            NextButtonClickEvent?.Invoke();
+            OnSubmitUserData?.Invoke(emailInputField.text, passwordInputField.text);
         }
 
-        private void PreviousButtonClick()
+        private void RegistrationButtonClick()
         {
-            PreviousButtonClickEvent?.Invoke();
+            OnRegistrationButtonClickEvent?.Invoke();
         }
 
         public override void Hide()
         {
             nextButton.onClick.RemoveListener(NextButtonClick);
-            previousButton.onClick.RemoveListener(PreviousButtonClick);
+            registrationButton.onClick.AddListener(RegistrationButtonClick);
         }
     }
 }

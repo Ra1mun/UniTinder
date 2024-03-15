@@ -6,6 +6,8 @@ namespace UniTinder.UI.Realisation
     {
         public Action GoToNextWindow { get; set; }
         public Action GoToPreviousWindow { get; set; }
+        
+        public Action GoToRegistrationWindow { get; set; }
 
         private readonly UILoginWindow _uiLoginWindow;
         private readonly UIService.UIService _uiService;
@@ -19,31 +21,37 @@ namespace UniTinder.UI.Realisation
         
         public void ShowWindow()
         {
-            _uiLoginWindow.NextButtonClickEvent += GoToNext;
-            _uiLoginWindow.PreviousButtonClickEvent += GoToPrevious;
-            
+            _uiLoginWindow.OnSubmitUserData += HandleUserData;
+            _uiLoginWindow.OnRegistrationButtonClickEvent += GoToRegistration;
+
             _uiService.Show<UILoginWindow>();
+        }
+
+        private void HandleUserData(string email, string password)
+        {
+
+            GoToNext();
         }
 
         private void GoToNext()
         {
-            HideWindow();
-            
             GoToNextWindow?.Invoke();
+            
+            HideWindow();
         }
 
-        private void GoToPrevious()
+        private void GoToRegistration()
         {
-            HideWindow();
+            GoToRegistrationWindow?.Invoke();
             
-            GoToPreviousWindow?.Invoke();
+            HideWindow();
         }
 
         public void HideWindow()
         {
-            _uiLoginWindow.NextButtonClickEvent -= GoToNext;
-            _uiLoginWindow.PreviousButtonClickEvent -= GoToPrevious;
-            
+            _uiLoginWindow.OnSubmitUserData -= HandleUserData;
+            _uiLoginWindow.OnRegistrationButtonClickEvent -= GoToRegistration;
+
             _uiService.Hide<UILoginWindow>();
         }
     }

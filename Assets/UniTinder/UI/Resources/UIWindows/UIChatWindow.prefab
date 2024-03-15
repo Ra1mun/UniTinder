@@ -557,7 +557,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sendMessage: {fileID: 0}
   previousButton: {fileID: 9052928740108638837}
-  messageInputField: {fileID: 0}
+  messageInputField: {fileID: 3868888396732195498}
 --- !u!222 &-4113128713160106728
 CanvasRenderer:
   m_ObjectHideFlags: 0

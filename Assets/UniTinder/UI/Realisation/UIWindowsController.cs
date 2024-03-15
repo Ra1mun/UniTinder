@@ -5,25 +5,29 @@ namespace UniTinder.UI.Realisation
 {
     public class UIWindowsController
     {
+        private readonly UILoginWindowController _uiLoginWindowController;
+        private readonly UIRegistrationWindowController _uiRegistrationWindowController;
+        private readonly UIMatchWindowController _uiMatchWindowController;
         private readonly UIProfileWindowController _uiProfileWindowController;
         private readonly UIChatWindowController _uiChatWindowController;
         
         private readonly LinkedList<IWindowController> _windowControllers = new LinkedList<IWindowController>();
 
         public UIWindowsController(
-            UIStartWindowController uiStartWindowController,
             UILoginWindowController uiLoginWindowController,
             UIRegistrationWindowController uiRegistrationWindowController,
             UIMatchWindowController uiMatchWindowController,
             UIProfileWindowController uiProfileWindowController,
             UIChatWindowController uiChatWindowController)
         {
+            _uiLoginWindowController = uiLoginWindowController;
+            _uiRegistrationWindowController = uiRegistrationWindowController;
+            _uiMatchWindowController = uiMatchWindowController;
             _uiProfileWindowController = uiProfileWindowController;
             _uiChatWindowController = uiChatWindowController;
             
-            SetupWindow(uiStartWindowController);
-            SetupWindow(uiLoginWindowController);
-            SetupWindow(uiRegistrationWindowController);
+            SetupLogin(uiLoginWindowController);
+            SetupRegistration(uiRegistrationWindowController);
             SetupMatch(uiMatchWindowController);
             SetupProfile(uiProfileWindowController);
             SetupChat(uiChatWindowController);
@@ -32,6 +36,24 @@ namespace UniTinder.UI.Realisation
         public void ShowFirstWindow()
         {
             _windowControllers.First?.Value.ShowWindow();
+        }
+        
+        private void SetupLogin(IWindowController windowController)
+        {
+            _windowControllers.AddLast(windowController);
+        }
+
+        private void SetupRegistration(UIRegistrationWindowController uiRegistrationWindowController)
+        {
+            if (_windowControllers.Last != null)
+            {
+                _uiLoginWindowController.GoToRegistrationWindow += uiRegistrationWindowController.ShowWindow;
+            }
+
+            if (_uiMatchWindowController != null)
+            {
+                uiRegistrationWindowController.GoToNextWindow += _uiMatchWindowController.ShowWindow;
+            }
         }
 
         private void SetupChat(UIChatWindowController chatWindowController)
@@ -70,18 +92,6 @@ namespace UniTinder.UI.Realisation
             }
 
             _windowControllers.AddLast(matchWindowController);
-        }
-
-        private void SetupWindow(IWindowController windowController)
-        {
-            if (_windowControllers.Last != null)
-            {
-                _windowControllers.Last.Value.GoToNextWindow += windowController.ShowWindow;
-            
-                windowController.GoToPreviousWindow += _windowControllers.Last.Value.ShowWindow;
-            }
-
-            _windowControllers.AddLast(windowController);
         }
     }
 }
