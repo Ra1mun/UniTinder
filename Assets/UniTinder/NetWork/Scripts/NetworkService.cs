@@ -24,12 +24,12 @@ namespace UniTinder.Network
 
         
         
-        public NetworkService(DevelopmentSettings developmentSettings)
+        public NetworkService(DevelopmentSettings developmentSettings, ThreadManager threadManager)
         {
             _clientSend = new ClientSend(this);
             _clientHandle = new ClientHandle(this, _clientSend);
             
-            _tcp = new TCP(this, developmentSettings.IP, developmentSettings.Port);
+            _tcp = new TCP(this, developmentSettings.IP, developmentSettings.Port, threadManager);
         }
 
         public void SetUserID(int id)

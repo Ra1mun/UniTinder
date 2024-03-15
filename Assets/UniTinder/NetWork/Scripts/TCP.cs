@@ -9,6 +9,7 @@ namespace UniTinder.Network
             private readonly NetworkService _networkService;
             private readonly string _ip;
             private readonly int _port;
+            private readonly ThreadManager _threadManager;
 
             private TcpClient _socket;
 
@@ -17,11 +18,15 @@ namespace UniTinder.Network
             private byte[] _receiveBuffer;
             
             
-            public TCP(NetworkService networkService, string ip, int port)
+            public TCP(NetworkService networkService,
+                string ip, 
+                int port,
+                ThreadManager threadManager)
             {
                 _networkService = networkService;
                 _ip = ip;
                 _port = port;
+                _threadManager = threadManager;
             }
 
             public void Connect()
@@ -117,7 +122,7 @@ namespace UniTinder.Network
                 while (packetLength > 0 && packetLength <= _receivedData.UnreadLength())
                 {
                     byte[] packetBytes = _receivedData.ReadBytes(packetLength);
-                    ThreadManager.ExecuteOnMainThread(() =>
+                    _threadManager.ExecuteOnMainThread(() =>
                     {
                         using (Packet packet = new Packet(packetBytes))
                         {

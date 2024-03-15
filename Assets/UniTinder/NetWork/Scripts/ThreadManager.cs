@@ -1,10 +1,11 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 
 namespace UniTinder.Network
 {
-    public class ThreadManager : MonoBehaviour
+    public class ThreadManager : ITickable
     {
         private static readonly List<Action> executeOnMainThread = new List<Action>();
         private static readonly List<Action> executeCopiedOnMainThread = new List<Action>();
@@ -12,7 +13,7 @@ namespace UniTinder.Network
 
         /// <summary>Sets an action to be executed on the main thread.</summary>
         /// <param name="_action">The action to be executed on the main thread.</param>
-        public static void ExecuteOnMainThread(Action _action)
+        public void ExecuteOnMainThread(Action _action)
         {
             if (_action == null)
             {
@@ -28,13 +29,13 @@ namespace UniTinder.Network
         }
 
 
-        private void Update()
+        public void Tick()
         {
             UpdateMain();
         }
 
         /// <summary>Executes all code meant to run on the main thread. NOTE: Call this ONLY from the main thread.</summary>
-        public static void UpdateMain()
+        private void UpdateMain()
         {
             if (actionToExecuteOnMainThread)
             {
@@ -52,5 +53,7 @@ namespace UniTinder.Network
                 }
             }
         }
+
+        
     }
 }
