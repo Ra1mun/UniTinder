@@ -37,6 +37,7 @@ namespace UniTinder.UI.Realisation
         public override void Hide()
         {
             previousButton.onClick.RemoveListener(GoToPreviousButtonClick);
+            sendMessage.onClick.RemoveListener(SendMessage);
         }
     }
 }
