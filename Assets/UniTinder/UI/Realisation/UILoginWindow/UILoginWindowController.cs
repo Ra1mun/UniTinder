@@ -1,4 +1,6 @@
 ﻿using System;
+using UniTinder.Network;
+using UnityEngine;
 
 namespace UniTinder.UI.Realisation
 {
@@ -11,11 +13,12 @@ namespace UniTinder.UI.Realisation
 
         private readonly UILoginWindow _uiLoginWindow;
         private readonly UIService.UIService _uiService;
+        private readonly NetworkService netWork;
 
-        public UILoginWindowController(UIService.UIService uiService)
+        public UILoginWindowController(UIService.UIService uiService, Network.NetworkService netWork)
         {
             _uiService = uiService;
-
+            this.netWork = netWork;
             _uiLoginWindow = uiService.Get<UILoginWindow>();
         }
         
@@ -23,25 +26,34 @@ namespace UniTinder.UI.Realisation
         {
             _uiLoginWindow.OnSubmitUserData += HandleUserData;
             _uiLoginWindow.OnRegistrationButtonClickEvent += GoToRegistration;
+            ClientHandle.GoToMainWindow += GoToNext;
 
             _uiService.Show<UILoginWindow>();
         }
 
         private void HandleUserData(string email, string password)
         {
-            
-            GoToNext();
+  
+            netWork.TryAuthorize(email, password);
+            //GoToNext();
         }
 
-        private void GoToNext()
+        private void GoToNext(bool check)
         {
-            GoToNextWindow?.Invoke();
+            if (check)
+            {
+                GoToNextWindow?.Invoke();
+
+                HideWindow();
+            }
+            else { Debug.Log("Неверный пароль"); }
             
-            HideWindow();
+
         }
 
         private void GoToRegistration()
         {
+
             GoToRegistrationWindow?.Invoke();
             
             HideWindow();
@@ -51,6 +63,7 @@ namespace UniTinder.UI.Realisation
         {
             _uiLoginWindow.OnSubmitUserData -= HandleUserData;
             _uiLoginWindow.OnRegistrationButtonClickEvent -= GoToRegistration;
+            ClientHandle.GoToMainWindow -= GoToNext;
 
             _uiService.Hide<UILoginWindow>();
         }

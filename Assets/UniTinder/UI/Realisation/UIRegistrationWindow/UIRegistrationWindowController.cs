@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using UniTinder.UI.UIService;
-using Unity.VisualScripting;
+using UniTinder.Network;
 using UnityEngine;
 
 namespace UniTinder.UI.Realisation
@@ -12,13 +12,14 @@ namespace UniTinder.UI.Realisation
         public Action GoToPreviousWindow { get; set; }
 
         private readonly UIService.UIService _uiService;
+        private readonly NetworkService network;
         private readonly UIRegistrationWindow _uiRegistrationWindow;
         private readonly List<InterestType> _selectedInterest = new List<InterestType>();
-        
-        public UIRegistrationWindowController(UIService.UIService uiService)
+
+        public UIRegistrationWindowController(UIService.UIService uiService, NetworkService network)
         {
             _uiService = uiService;
-
+            this.network = network;
             _uiRegistrationWindow = _uiService.Get<UIRegistrationWindow>();
         }
 
@@ -27,7 +28,9 @@ namespace UniTinder.UI.Realisation
             _uiRegistrationWindow.InterestSelectedEvent += AddInterest;
             _uiRegistrationWindow.InterestDeselectedEvent += RemoveInterest;
             _uiRegistrationWindow.OnSubmitUserDataEvent += HandleUserDataEvent;
-            
+
+            ClientHandle.GoToMainWindow += GoToNext;
+
             _uiService.Show<UIRegistrationWindow>();
         }
 
@@ -61,23 +64,28 @@ namespace UniTinder.UI.Realisation
             string job,
             int experienceTime)
         {
-            
 
-            GoToNext();
+            network.RegisterNewUser(nickname, email, city, job, experienceTime);
         }
         
-        private void GoToNext()
+        private void GoToNext(bool check)
         {
-            GoToNextWindow?.Invoke();
-            
-            HideWindow();
+            if (check)
+            {
+                GoToNextWindow?.Invoke();
+
+                HideWindow();
+            }
+
         }
 
         public void HideWindow()
         {
             _uiRegistrationWindow.SelectInputFieldEvent -= ShowKeyboard;
             
-            _uiRegistrationWindow.OnSubmitUserDataEvent += HandleUserDataEvent;
+            _uiRegistrationWindow.OnSubmitUserDataEvent -= HandleUserDataEvent;
+
+            ClientHandle.GoToMainWindow -= GoToNext;
 
             _uiService.Hide<UIRegistrationWindow>();
         }
