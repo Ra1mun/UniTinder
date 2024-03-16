@@ -43,8 +43,7 @@ namespace UniTinder.UI.Realisation
                 return;
             }
 
-            var view = instantiator
-                .InstantiatePrefabResourceForComponent<MessageView>("UIElements");
+            var view = instantiator.InstantiatePrefabResourceForComponent<MessageView>("UI Elements/Message");
             view.SetText(text);
 
             _uiChatWindow.AddMessage(view);

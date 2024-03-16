@@ -603,6 +603,7 @@ MonoBehaviour:
   sendMessage: {fileID: 793055588873581393}
   previousButton: {fileID: 9052928740108638837}
   messageInputField: {fileID: 3868888396732195498}
+  messageContainer: {fileID: 7169063026921964406}
 --- !u!222 &-4113128713160106728
 CanvasRenderer:
   m_ObjectHideFlags: 0

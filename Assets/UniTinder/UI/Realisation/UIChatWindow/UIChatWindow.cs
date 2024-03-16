@@ -14,6 +14,7 @@ namespace UniTinder.UI.Realisation
         [SerializeField] private Button sendMessage;
         [SerializeField] private Button previousButton;
         [SerializeField] private TMP_InputField messageInputField;
+        [SerializeField] private RectTransform messageContainer;
         
         public override void Show()
         {
@@ -22,7 +23,7 @@ namespace UniTinder.UI.Realisation
         }
         public void AddMessage(MessageView view)
         {
-            view.transform.SetParent(transform);
+            view.transform.SetParent(messageContainer);
         }
         
         private void SendMessage()
