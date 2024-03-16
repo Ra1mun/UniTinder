@@ -19,7 +19,7 @@ namespace UniTinder.UI.Realisation
         [SerializeField] private TMP_Text profileExperienceTime;
         [SerializeField] private GridLayoutGroup interestContainer;
 
-        private readonly List<UIInterest> _interests = new List<UIInterest>();
+        private readonly List<InterestButton> _interests = new List<InterestButton>();
         
         public override void Show()
         {
@@ -51,7 +51,7 @@ namespace UniTinder.UI.Realisation
             profileExperienceTime.text = experienceTime;
         }
 
-        public void AddInterest(UIInterest prefab)
+        public void AddInterest(InterestButton prefab)
         {
             prefab.transform.SetParent(interestContainer.transform);
             

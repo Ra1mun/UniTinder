@@ -10,6 +10,9 @@ namespace UniTinder.UI.Realisation
     public class UIRegistrationWindow : UIWindow
     {
         public event Action SelectInputFieldEvent;
+
+        public event Action<InterestType> InterestSelectedEvent;
+        public event Action<InterestType> InterestDeselectedEvent;
         public event Action<Sprite, Sprite, string, string, string, string, int> OnSubmitUserDataEvent;
 
         [Header("Stage first")] 
@@ -40,6 +43,7 @@ namespace UniTinder.UI.Realisation
         [Header("Stage third")]
         [SerializeField] private CanvasGroup thirdStage;
         [SerializeField] private Button goToSecondStageButton;
+        [SerializeField] private InterestButton[] uiInterests;
         [SerializeField] private Button nextButton;
         
         public override void Show()
@@ -59,6 +63,11 @@ namespace UniTinder.UI.Realisation
             goToThirdStageButton.onClick.AddListener(ShowThirdStage);
             
             goToSecondStageButton.onClick.AddListener(ShowSecondStage);
+            for (int i = 0; i < uiInterests.Length; i++)
+            {
+                uiInterests[i].OnInterestSelected += InterestSelected;
+                uiInterests[i].OnInterestDeselected += InterestDeselected;
+            }
             nextButton.onClick.AddListener(GoToNextButtonClick);
         }
 
@@ -79,6 +88,11 @@ namespace UniTinder.UI.Realisation
             goToThirdStageButton.onClick.RemoveListener(ShowThirdStage);
             
             goToSecondStageButton.onClick.RemoveListener(ShowSecondStage);
+            for (int i = 0; i < uiInterests.Length; i++)
+            {
+                uiInterests[i].OnInterestSelected -= InterestSelected;
+                uiInterests[i].OnInterestDeselected -= InterestDeselected;
+            }
             nextButton.onClick.RemoveListener(GoToNextButtonClick);
         }
 
@@ -143,6 +157,16 @@ namespace UniTinder.UI.Realisation
             profileNickname.text = nickName;
         }
 
+        private void InterestSelected(InterestType type)
+        {
+            InterestSelectedEvent?.Invoke(type);
+        }
+
+        private void InterestDeselected(InterestType type)
+        {
+            InterestDeselectedEvent?.Invoke(type);
+        }
+
         private void ShowFirstStage()
         {
             firstStage.gameObject.SetActive(true);
@@ -169,7 +193,7 @@ namespace UniTinder.UI.Realisation
             
             thirdStage.gameObject.SetActive(true);
         }
-        
+
         private void GoToNextButtonClick()
         {
             OnSubmitUserDataEvent?.Invoke(
