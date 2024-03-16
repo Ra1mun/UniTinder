@@ -49,11 +49,15 @@ public class ClientSend
         }
     }
 
-    public void SendMessageToServer() 
+    public void SendMessageToUser(int toUser, string message) 
     {
-        using (Packet packet = new Packet((int)ClientPackets.sendMessageToServer))
+        using (Packet packet = new Packet((int)ClientPackets.sendMessageToUser))
         {
             packet.Write(_networkService.GetUserID());
+
+            packet.Write(toUser);
+
+            packet.Write(message);
 
             SendTCPData(packet);
         }

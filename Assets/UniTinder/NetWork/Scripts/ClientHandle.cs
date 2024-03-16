@@ -29,7 +29,7 @@ public class ClientHandle
         //_clientSend.TryAuthorize("test1@unitinder.com");
     }
 
-    public void SendMessageToServer(Packet packet)
+    public void ReceiveMessageFromUser(Packet packet)
     {
         string message = packet.ReadString();
         int id = packet.ReadInt();

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UniTinder.Application.Installer;
 using UnityEngine;
@@ -17,8 +18,10 @@ namespace UniTinder.Network
         private readonly ClientSend _clientSend;
         private readonly ClientHandle _clientHandle;
 
+        DateTime dateTime;
 
         private bool _isConnected;
+        private Dictionary<int, List<string>> _messages;
         private Dictionary<int, PacketHandler> _packetHandlers;
         private int _id;
         private int _dbID;
@@ -98,6 +101,11 @@ namespace UniTinder.Network
             _clientSend.RegisterNewUser(nickname, email, city, job, experienceTime);
         }
 
+        public void SendMessageToUser(int userid, string message)
+        {
+
+        }
+
         public void Disconnect()
         {
      
@@ -130,8 +138,10 @@ namespace UniTinder.Network
                 {(int)ServerPackets.welcome, _clientHandle.Welcome },
                 {(int)ServerPackets.registeredNewUser, _clientHandle.RegisteredNewUser },
                 {(int)ServerPackets.sendIntoApp, _clientHandle.SendIntoApp },
+                {(int)ServerPackets.receiveMessageFromUser, _clientHandle.ReceiveMessageFromUser }
 
             };
+            _messages = new Dictionary<int, List<string>>();
             Debug.Log("Initialized Client Data");
         }
 

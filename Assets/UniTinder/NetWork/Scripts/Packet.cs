@@ -9,14 +9,15 @@ public enum ServerPackets
 {
     welcome = 1,
     registeredNewUser,
-    sendIntoApp
+    sendIntoApp,
+    receiveMessageFromUser
 }
 
 /// <summary>Sent from client to server.</summary>
 public enum ClientPackets
 {
     welcomeReceived = 1,
-    sendMessageToServer = 2,
+    sendMessageToUser = 2,
     registerNewUser,
     connectUser
 }
