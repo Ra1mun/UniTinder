@@ -9,15 +9,8 @@ namespace UniTinder.UI.Realisation
 {
     public class UIRegistrationWindow : UIWindow
     {
-        public Action GoToNextWindowEvent;
         public event Action SelectInputFieldEvent;
-        public event Action<Sprite> OnSubmitAvatar;
-        public event Action<Sprite> OnSubmitBackground;
-        public event Action<string> OnSubmitNickname;
-        public event Action<string> OnSubmitEmail;
-        public event Action<string> OnSubmitCity;
-        public event Action<string> OnSubmitJob;
-        public event Action<int> OnSubmitExperienceTime;
+        public event Action<Sprite, Sprite, string, string, string, string, int> OnSubmitUserDataEvent;
 
         [Header("Stage first")] 
         [SerializeField] private CanvasGroup firstStage;
@@ -71,13 +64,6 @@ namespace UniTinder.UI.Realisation
 
         public override void Hide()
         {
-            OnSubmitBackground?.Invoke(secondProfileBackground.sprite);
-            OnSubmitAvatar?.Invoke(secondProfileAvatar.sprite);
-            OnSubmitNickname?.Invoke(nicknameInputField.text);
-            OnSubmitEmail?.Invoke(emailInputField.text);
-            OnSubmitCity?.Invoke(cityInputField.text);
-            OnSubmitJob?.Invoke(jobInputField.text);
-            OnSubmitExperienceTime?.Invoke(experienceTime.GetExperienceTime());
             
             nicknameInputField.onSelect.RemoveListener(SelectInputField);
             emailInputField.onSelect.RemoveListener(SelectInputField);
@@ -186,7 +172,14 @@ namespace UniTinder.UI.Realisation
         
         private void GoToNextButtonClick()
         {
-            GoToNextWindowEvent?.Invoke();
+            OnSubmitUserDataEvent?.Invoke(
+                secondProfileBackground.sprite,
+                secondProfileAvatar.sprite,
+                nicknameInputField.text,
+                emailInputField.text,
+                cityInputField.text,
+                jobInputField.text,
+                experienceTime.GetExperienceTime());
         }
     }
 }

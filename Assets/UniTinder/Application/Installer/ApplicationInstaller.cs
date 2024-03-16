@@ -1,22 +1,50 @@
-using UniTinder.ApplicationStartup.Scripts;
-using UniTinder.SceneObjectStorage.Scripts;
+using UniTinder.Network;
 using UniTinder.UI.UIService;
 using UnityEngine;
 using Zenject;
 
-public class ApplicationInstaller : MonoInstaller
+namespace UniTinder.Application.Installer
 {
-    public override void InstallBindings()
+    public class ApplicationInstaller : MonoInstaller
     {
-        UIServiceInstaller.Install(Container);
+        [SerializeField] private string ip;
+        [SerializeField] private int port;
+    
+        public override void InstallBindings()
+        {
+            var developmentSettings = new DevelopmentSettings(
+                ip,
+                port);
+
+            Container
+                .Bind<DevelopmentSettings>()
+                .FromInstance(developmentSettings)
+                .AsSingle();
         
-        Container
-            .Bind<SceneObjectStorage>()
-            .AsSingle();
+            NetworkInstaller.Install(Container);
         
-        Container
-            .Bind<ApplicationStartup>()
-            .AsSingle()
-            .NonLazy();
+            UIServiceInstaller.Install(Container);
+
+            Container
+                .Bind<SceneObjectStorage.Scripts.SceneObjectStorage>()
+                .AsSingle();
+        
+            Container
+                .Bind<ApplicationStartup>()
+                .AsSingle()
+                .NonLazy();
+        }
+    }
+    
+    public struct DevelopmentSettings
+    {
+        public readonly string IP;
+        public readonly int Port;
+        
+        public DevelopmentSettings(string ip, int port)
+        {
+            IP = ip;
+            Port = port;
+        }
     }
 }

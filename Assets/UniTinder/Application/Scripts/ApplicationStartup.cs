@@ -1,11 +1,10 @@
 ﻿using System;
-using UniTinder.Bootstrap.Interfaces;
 using UniTinder.Camera;
+using UniTinder.Network;
 using UniTinder.UI.UIService;
-using UnityEngine;
 using Zenject;
 
-namespace UniTinder.ApplicationStartup.Scripts
+namespace UniTinder.Application
 {
     public class ApplicationStartup
     {

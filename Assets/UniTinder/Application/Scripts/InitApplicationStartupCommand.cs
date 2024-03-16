@@ -2,7 +2,7 @@
 using UniTinder.Bootstrap.Interfaces;
 using UniTinder.UI.Realisation;
 
-namespace UniTinder.ApplicationStartup.Scripts
+namespace UniTinder.Application
 {
     public class InitApplicationStartupCommand : ICommand
     {
