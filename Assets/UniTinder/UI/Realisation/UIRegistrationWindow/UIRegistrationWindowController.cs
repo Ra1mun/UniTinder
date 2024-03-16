@@ -16,10 +16,15 @@ namespace UniTinder.UI.Realisation
         private readonly UIRegistrationWindow _uiRegistrationWindow;
         private readonly List<InterestType> _selectedInterest = new List<InterestType>();
 
+        private readonly SessionData.SessionData _sessionData;
+        public SessionData.SessionData SessionData => _sessionData;
+
         public UIRegistrationWindowController(UIService.UIService uiService, NetworkService network)
         {
             _uiService = uiService;
             this.network = network;
+            _sessionData = new SessionData.SessionData();
+            
             _uiRegistrationWindow = _uiService.Get<UIRegistrationWindow>();
         }
 
@@ -29,7 +34,7 @@ namespace UniTinder.UI.Realisation
             _uiRegistrationWindow.InterestDeselectedEvent += RemoveInterest;
             _uiRegistrationWindow.OnSubmitUserDataEvent += HandleUserDataEvent;
 
-            ClientHandle.GoToMainWindow += GoToNext;
+            //ClientHandle.GoToMainWindow += GoToNext;
 
             _uiService.Show<UIRegistrationWindow>();
         }
@@ -64,19 +69,28 @@ namespace UniTinder.UI.Realisation
             string job,
             int experienceTime)
         {
-
             network.RegisterNewUser(nickname, email, city, job, experienceTime);
+
+            _sessionData.CreateData(nickname, _selectedInterest, avatar, background);
+            
+            GoToNext();
         }
         
-        private void GoToNext(bool check)
+        private void GoToNext(bool value)
         {
-            if (check)
+            if (value)
             {
                 GoToNextWindow?.Invoke();
 
                 HideWindow();
             }
+        }
+        
+        private void GoToNext()
+        {
+            GoToNextWindow?.Invoke();
 
+            HideWindow();
         }
 
         public void HideWindow()
@@ -85,7 +99,7 @@ namespace UniTinder.UI.Realisation
             
             _uiRegistrationWindow.OnSubmitUserDataEvent -= HandleUserDataEvent;
 
-            ClientHandle.GoToMainWindow -= GoToNext;
+            //ClientHandle.GoToMainWindow -= GoToNext;
 
             _uiService.Hide<UIRegistrationWindow>();
         }
