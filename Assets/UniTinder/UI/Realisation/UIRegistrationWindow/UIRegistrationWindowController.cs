@@ -19,14 +19,7 @@ namespace UniTinder.UI.Realisation
 
         public void ShowWindow()
         {
-            _uiRegistrationWindow.GoToNextWindowEvent += GoToNext;
-            
-            _uiRegistrationWindow.SelectInputFieldEvent += ShowKeyboard;
-            
-            _uiRegistrationWindow.OnSubmitNickname += HandleNickname;
-            _uiRegistrationWindow.OnSubmitEmail += HandleEmail;
-            _uiRegistrationWindow.OnSubmitCity += HandleCity;
-            _uiRegistrationWindow.OnSubmitJob += HandleJob;
+            _uiRegistrationWindow.OnSubmitUserDataEvent += HandleUserDataEvent;
             
             _uiService.Show<UIRegistrationWindow>();
         }
@@ -36,31 +29,18 @@ namespace UniTinder.UI.Realisation
             TouchScreenKeyboard.Open("", TouchScreenKeyboardType.Default);
         }
 
-        private void HandleNickname(string nickname)
+        private void HandleUserDataEvent(
+            Sprite background,
+            Sprite avatar,
+            string nickname,
+            string email,
+            string city,
+            string job,
+            int experienceTime)
         {
             
-        }
-        
-        private void HandleEmail(string email)
-        {
-            
-        }
-        
-        private void HandleCity(string cityName)
-        {
-            
-        }
 
-        private void HandleJob(string jobName)
-        {
-            
-        }
-
-        private void HandleBackground(Sprite sprite)
-        {
-            //Check write data
-            
-            
+            GoToNext();
         }
         
         private void GoToNext()
@@ -72,15 +52,10 @@ namespace UniTinder.UI.Realisation
 
         public void HideWindow()
         {
-            _uiRegistrationWindow.GoToNextWindowEvent -= GoToNext;
-            
             _uiRegistrationWindow.SelectInputFieldEvent -= ShowKeyboard;
             
-            _uiRegistrationWindow.OnSubmitNickname -= HandleNickname;
-            _uiRegistrationWindow.OnSubmitEmail -= HandleEmail;
-            _uiRegistrationWindow.OnSubmitCity -= HandleCity;
-            _uiRegistrationWindow.OnSubmitJob -= HandleJob;
-            
+            _uiRegistrationWindow.OnSubmitUserDataEvent += HandleUserDataEvent;
+
             _uiService.Hide<UIRegistrationWindow>();
         }
     }
