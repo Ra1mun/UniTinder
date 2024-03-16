@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UniTinder.UI.Realisation;
+using UniTinder.UI.UIService;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -28,9 +29,9 @@ public class MatchUser : MonoBehaviour
         profileNickname.text = nickname;
     }
 
-    public void AddInterest(UIInterest interest)
+    public void AddInterest(InterestButton interestButton)
     {
-        interest.transform.SetParent(interestContainer);
+        interestButton.transform.SetParent(interestContainer);
     }
 
     private void OnEnable()

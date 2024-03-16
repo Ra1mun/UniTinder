@@ -12,9 +12,12 @@ namespace UniTinder.UI.Realisation
         
         [SerializeField] private Button chatButton;
         [SerializeField] private Button profileButton;
+        [SerializeField] private Image profileAvatar;
         [SerializeField] private RectTransform matchUserContainer;
+        [SerializeField] private MatchUser[] _matchUsers;
 
         private MatchUser _currentUser;
+        private int _currentUserId;
         
         public override void Show()
         {
@@ -22,7 +25,12 @@ namespace UniTinder.UI.Realisation
             profileButton.onClick.AddListener(ProfileButtonClick);
         }
 
-        public void ShowNewMatchUser(MatchUser view)
+        public void SetProfileAvatar(Sprite avatar)
+        {
+            profileAvatar.sprite = avatar;
+        }
+
+        private void ShowNewMatchUser(MatchUser view)
         {
             if (_currentUser != null)
             {
@@ -30,8 +38,24 @@ namespace UniTinder.UI.Realisation
             }
             
             view.transform.SetParent(matchUserContainer);
+            
+            view.OnLikeButtonClickEvent += LikeUser;
+            view.OnDislikeButtonClickEvent += DislikeUser;
+            
             _currentUser = view;
             view.gameObject.SetActive(true);
+        }
+
+        private void LikeUser()
+        {
+            ShowNewMatchUser(_matchUsers[_currentUserId]);
+            _currentUserId++;
+        }
+
+        private void DislikeUser()
+        {
+            ShowNewMatchUser(_matchUsers[_currentUserId]);
+            _currentUserId++;
         }
 
         private void ChatButtonClick()
