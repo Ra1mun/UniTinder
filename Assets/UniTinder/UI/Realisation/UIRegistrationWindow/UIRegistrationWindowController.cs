@@ -34,7 +34,7 @@ namespace UniTinder.UI.Realisation
             _uiRegistrationWindow.InterestDeselectedEvent += RemoveInterest;
             _uiRegistrationWindow.OnSubmitUserDataEvent += HandleUserDataEvent;
 
-            //ClientHandle.GoToMainWindow += GoToNext;
+            ClientHandle.GoToMainWindow += GoToNext;
 
             _uiService.Show<UIRegistrationWindow>();
         }
@@ -73,7 +73,6 @@ namespace UniTinder.UI.Realisation
 
             _sessionData.CreateData(nickname, _selectedInterest, avatar, background);
             
-            GoToNext();
         }
         
         private void GoToNext(bool value)
@@ -86,12 +85,6 @@ namespace UniTinder.UI.Realisation
             }
         }
         
-        private void GoToNext()
-        {
-            GoToNextWindow?.Invoke();
-
-            HideWindow();
-        }
 
         public void HideWindow()
         {
@@ -99,7 +92,7 @@ namespace UniTinder.UI.Realisation
             
             _uiRegistrationWindow.OnSubmitUserDataEvent -= HandleUserDataEvent;
 
-            //ClientHandle.GoToMainWindow -= GoToNext;
+            ClientHandle.GoToMainWindow -= GoToNext;
 
             _uiService.Hide<UIRegistrationWindow>();
         }

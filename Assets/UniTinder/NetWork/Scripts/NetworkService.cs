@@ -18,11 +18,11 @@ namespace UniTinder.Network
         private readonly ClientSend _clientSend;
         private readonly ClientHandle _clientHandle;
 
-        DateTime dateTime;
 
         private bool _isConnected;
         private Dictionary<int, List<string>> _messages;
         private Dictionary<int, PacketHandler> _packetHandlers;
+        public int connectedUsersCount;
         private int _id;
         private int _dbID;
         private bool _isActive;
@@ -83,6 +83,16 @@ namespace UniTinder.Network
             return _dbID;
         }
 
+        public void AddMessage(int fromUser,string message)
+        {
+            if (_messages.ContainsKey(fromUser))
+            _messages[fromUser].Add(message);
+            else
+            {
+                _messages.Add(fromUser, new List<string> { message });
+            }
+        }
+
         public void ConnectToServer()
         {
             InitializeClientData();
@@ -103,7 +113,7 @@ namespace UniTinder.Network
 
         public void SendMessageToUser(int userid, string message)
         {
-
+            _clientSend.SendMessageToUser(userid, message);
         }
 
         public void Disconnect()
@@ -133,6 +143,7 @@ namespace UniTinder.Network
 
         private void InitializeClientData()
         {
+
             _packetHandlers = new Dictionary<int, PacketHandler>()
             {
                 {(int)ServerPackets.welcome, _clientHandle.Welcome },

@@ -35,6 +35,8 @@ namespace UniTinder.UI.Realisation
         {
   
             netWork.TryAuthorize(email, password);
+            netWork.SendMessageToUser(1, "кайф");
+            netWork.SendMessageToUser(1, "кайф");
             //GoToNext();
         }
 

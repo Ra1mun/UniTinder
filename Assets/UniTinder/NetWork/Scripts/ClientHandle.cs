@@ -31,11 +31,14 @@ public class ClientHandle
 
     public void ReceiveMessageFromUser(Packet packet)
     {
+        int senderID = packet.ReadInt();
         string message = packet.ReadString();
         int id = packet.ReadInt();
 
-        Debug.Log($"Message from server: {message}");
-        _networkService.SetUserID(id);
+        Debug.Log($"Message from user {senderID}: {message}");
+
+        _networkService.AddMessage(senderID, message);
+
         //_clientSend.WelcomeReceived();
     }
 
@@ -55,9 +58,11 @@ public class ClientHandle
     public void SendIntoApp(Packet packet)
     {
         bool check = packet.ReadBool();
+        int connectedUsersCount = packet.ReadInt();
         int dbID = packet.ReadInt();
         int id = packet.ReadInt();
 
+        _networkService.connectedUsersCount = connectedUsersCount;
         _networkService.SetDbID(dbID);
 
         GoToMainWindow?.Invoke(check);
