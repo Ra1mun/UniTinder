@@ -10,19 +10,24 @@ namespace UniTinder.UI.Realisation
         private readonly UIService.UIService _uiService;
         private readonly UIMatchWindow _uiMatchWindow;
 
+        private SessionData.SessionData _sessionData;
+
         public Action GoToChatWindow { get; set; }
         
         public Action GoToProfileWindow { get; set; }
 
-        public UIMatchWindowController(UIService.UIService uiService)
+        public UIMatchWindowController(UIService.UIService uiService,
+            UIRegistrationWindowController uiRegistrationWindowController)
         {
             _uiService = uiService;
-
+            _sessionData = uiRegistrationWindowController.SessionData;
+            
             _uiMatchWindow = _uiService.Get<UIMatchWindow>();
         }
 
         public void ShowWindow()
         {
+            _uiMatchWindow.SetProfileAvatar(_sessionData.GetAvatar());
             _uiMatchWindow.OnChatButtonClickEvent += GoToChat;
             _uiMatchWindow.OnProfileButtonClickEvent += GoToProfile;
             
