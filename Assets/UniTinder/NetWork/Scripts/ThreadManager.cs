@@ -27,7 +27,7 @@ namespace UniTinder.Network
                 actionToExecuteOnMainThread = true;
             }
         }
-        
+
 
         /// <summary>Executes all code meant to run on the main thread. NOTE: Call this ONLY from the main thread.</summary>
         public void UpdateMain()

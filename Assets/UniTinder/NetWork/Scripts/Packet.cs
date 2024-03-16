@@ -157,10 +157,12 @@ public class Packet : IDisposable
     }
     /// <summary>Adds a string to the packet.</summary>
     /// <param name="_value">The string to add.</param>
-    public void Write(string _value)
+    public void Write(string _value) // —делать функцию дл¤ вычислени¤ длины строки UTF-8 в байтах
     {
-        Write(_value.Length); // Add the length of the string to the packet
-        buffer.AddRange(Encoding.ASCII.GetBytes(_value)); // Add the string itself
+        //Write(_value.Length); // Add the length of the string to the packet
+        Write(Encoding.UTF8.GetByteCount(_value));
+        //buffer.AddRange(Encoding.ASCII.GetBytes(_value)); // Add the string itself
+        buffer.AddRange(Encoding.UTF8.GetBytes(_value));
     }
     #endregion
 
@@ -176,7 +178,7 @@ public class Packet : IDisposable
             if (_moveReadPos)
             {
                 // If _moveReadPos is true
-                readPos += 1; // Increase readPos by 1
+                //readPos += 1; // Increase readPos by 1
             }
             return _value; // Return the byte
         }
@@ -320,7 +322,8 @@ public class Packet : IDisposable
         try
         {
             int _length = ReadInt(); // Get the length of the string
-            string _value = Encoding.ASCII.GetString(readableBuffer, readPos, _length); // Convert the bytes to a string
+            //string _value = Encoding.ASCII.GetString(readableBuffer, readPos, _length); // Convert the bytes to a string
+            string _value = Encoding.UTF8.GetString(readableBuffer, readPos, _length);
             if (_moveReadPos && _value.Length > 0)
             {
                 // If _moveReadPos is true string is not empty

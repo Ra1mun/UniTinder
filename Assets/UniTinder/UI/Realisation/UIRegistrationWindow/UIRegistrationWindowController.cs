@@ -22,7 +22,9 @@ namespace UniTinder.UI.Realisation
         public void ShowWindow()
         {
             _uiRegistrationWindow.OnSubmitUserDataEvent += HandleUserDataEvent;
-            
+
+            ClientHandle.GoToMainWindow += GoToNext;
+
             _uiService.Show<UIRegistrationWindow>();
         }
 
@@ -40,23 +42,28 @@ namespace UniTinder.UI.Realisation
             string job,
             int experienceTime)
         {
-            
 
-            GoToNext();
+            network.RegisterNewUser(nickname, email, city, job, experienceTime);
         }
         
-        private void GoToNext()
+        private void GoToNext(bool check)
         {
-            GoToNextWindow?.Invoke();
-            
-            HideWindow();
+            if (check)
+            {
+                GoToNextWindow?.Invoke();
+
+                HideWindow();
+            }
+
         }
 
         public void HideWindow()
         {
             _uiRegistrationWindow.SelectInputFieldEvent -= ShowKeyboard;
             
-            _uiRegistrationWindow.OnSubmitUserDataEvent += HandleUserDataEvent;
+            _uiRegistrationWindow.OnSubmitUserDataEvent -= HandleUserDataEvent;
+
+            ClientHandle.GoToMainWindow -= GoToNext;
 
             _uiService.Hide<UIRegistrationWindow>();
         }

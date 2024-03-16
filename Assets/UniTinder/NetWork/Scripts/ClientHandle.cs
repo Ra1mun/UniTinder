@@ -1,9 +1,14 @@
+using System;
 using UniTinder.Network;
 using UnityEditor.PackageManager;
 using UnityEngine;
 
+
+
 public class ClientHandle
 {
+    public static Action<bool> GoToMainWindow { get; set; }
+
     private readonly NetworkService _networkService;
     private readonly ClientSend _clientSend;
 
@@ -20,8 +25,8 @@ public class ClientHandle
 
         Debug.Log($"Message from server: {message}");
         _networkService.SetUserID(id);
-        Debug.Log(_networkService.GetUserID());
-        //_clientSend.WelcomeReceived();
+        //Debug.Log(_networkService.GetUserID());
+        //_clientSend.TryAuthorize("test1@unitinder.com");
     }
 
     public void SendMessageToServer(Packet packet)
@@ -49,6 +54,13 @@ public class ClientHandle
 
     public void SendIntoApp(Packet packet)
     {
+        bool check = packet.ReadBool();
+        int dbID = packet.ReadInt();
+        int id = packet.ReadInt();
+
+        _networkService.SetDbID(dbID);
+
+        GoToMainWindow?.Invoke(check);
         //Client.Instance.IdInDatabase = packet.ReadInt();
         //UIManager.Instance.ToAppTrigger();
     } 

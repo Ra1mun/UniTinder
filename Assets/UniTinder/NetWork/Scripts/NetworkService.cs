@@ -12,7 +12,7 @@ namespace UniTinder.Network
 
         public delegate void PacketHandler(Packet packet);
         public readonly int DataBufferSize = 4096;
-        
+
         private readonly TCP _tcp;
         private readonly ClientSend _clientSend;
         private readonly ClientHandle _clientHandle;
@@ -21,21 +21,23 @@ namespace UniTinder.Network
         private bool _isConnected;
         private Dictionary<int, PacketHandler> _packetHandlers;
         private int _id;
+        private int _dbID;
         private bool _isActive;
-        
+
         public Dictionary<int, PacketHandler> PacketHandlers => _packetHandlers;
         public TCP TCP => _tcp;
 
-        
-        
+
+
         public NetworkService(DevelopmentSettings developmentSettings, TickableManager tickableManager)
         {
             _tickableManager = tickableManager;
             _threadManager = new ThreadManager();
             _clientSend = new ClientSend(this);
             _clientHandle = new ClientHandle(this, _clientSend);
-            
+
             _tcp = new TCP(this, developmentSettings.IP, developmentSettings.Port, _threadManager);
+            ConnectToServer();
             Enable();
         }
 
@@ -46,7 +48,7 @@ namespace UniTinder.Network
                 _tickableManager.Add(this);
                 _isActive = true;
             }
-            
+
         }
 
         private void Disable()
@@ -68,12 +70,32 @@ namespace UniTinder.Network
             return _id;
         }
 
+        public void SetDbID(int dbID)
+        {
+            _dbID = dbID;
+        }
+
+        public int GetDbID()
+        {
+            return _dbID;
+        }
+
         public void ConnectToServer()
         {
             InitializeClientData();
 
             _isConnected = true;
             _tcp.Connect();
+        }
+
+        public void TryAuthorize(string email, string password)
+        {
+            _clientSend.TryAuthorize(email, password);
+        }
+
+        public void RegisterNewUser(string nickname, string email, string city, string job, int experienceTime)
+        {
+            _clientSend.RegisterNewUser(nickname, email, city, job, experienceTime);
         }
 
         public void Disconnect()
@@ -91,7 +113,7 @@ namespace UniTinder.Network
         
         public void Tick()
         {
-            Debug.Log("ss");
+            
             _threadManager.UpdateMain();
         }
         

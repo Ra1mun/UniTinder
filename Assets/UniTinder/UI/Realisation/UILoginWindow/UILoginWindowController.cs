@@ -1,5 +1,6 @@
 ﻿using System;
 using UniTinder.Network;
+using UnityEngine;
 
 namespace UniTinder.UI.Realisation
 {
@@ -25,26 +26,34 @@ namespace UniTinder.UI.Realisation
         {
             _uiLoginWindow.OnSubmitUserData += HandleUserData;
             _uiLoginWindow.OnRegistrationButtonClickEvent += GoToRegistration;
+            ClientHandle.GoToMainWindow += GoToNext;
 
             _uiService.Show<UILoginWindow>();
         }
 
         private void HandleUserData(string email, string password)
         {
-            netWork.ConnectToServer();
-            GoToNext();
+  
+            netWork.TryAuthorize(email, password);
+            //GoToNext();
         }
 
-        private void GoToNext()
+        private void GoToNext(bool check)
         {
-            GoToNextWindow?.Invoke();
+            if (check)
+            {
+                GoToNextWindow?.Invoke();
+
+                HideWindow();
+            }
+            else { Debug.Log("Неверный пароль"); }
             
-            HideWindow();
+
         }
 
         private void GoToRegistration()
         {
-            netWork.ConnectToServer();
+
             GoToRegistrationWindow?.Invoke();
             
             HideWindow();
@@ -54,6 +63,7 @@ namespace UniTinder.UI.Realisation
         {
             _uiLoginWindow.OnSubmitUserData -= HandleUserData;
             _uiLoginWindow.OnRegistrationButtonClickEvent -= GoToRegistration;
+            ClientHandle.GoToMainWindow -= GoToNext;
 
             _uiService.Hide<UILoginWindow>();
         }
